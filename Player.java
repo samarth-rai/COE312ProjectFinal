@@ -102,18 +102,35 @@ public class Player extends Character implements Runnable {
 
     }
 
-    public void eat(String food){
+    public void interact(String object){
         for(int i=0;i<currentLocation.currentlyPlacedObjects.size();i++)
         {
-            if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(food))
+            if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
             {
-               Food f = (Food)currentLocation.currentlyPlacedObjects.get(i);
+               Consumables f = (Consumables) currentLocation.currentlyPlacedObjects.get(i);
                f.consume();
                return;
             }
         }
     }
-
+    public void eat(String object){
+        for(int i=0;i<currentLocation.currentlyPlacedObjects.size();i++)
+        {
+            if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
+            {
+               if(currentLocation.currentlyPlacedObjects.get(i).getClass().getSimpleName().equalsIgnoreCase("Food"))
+                {
+                    Consumables f = (Consumables) currentLocation.currentlyPlacedObjects.get(i);
+                    f.consume();
+                }
+                else
+                {
+                    UI.print("This item is not food!");
+                }
+               return;
+            }
+        }
+    }
 
    public void acquire(Objects o){
        inventory.add(o);

@@ -53,10 +53,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandAcquire cAcquire = new CommandAcquire(player);
     CommandTakeItem cTakeItem = new CommandTakeItem(player);
     CommandEat cEat = new CommandEat(player);
+    CommandInteract cInteract = new CommandInteract(player);
     CommandAttack cAttack = new CommandAttack(player);
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cEat}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cInteract, cEat}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
 
     //Objects to be placed in locations
@@ -71,6 +72,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Food apple7 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple8 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple9 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+
+     Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth);
+        Objects Wood = new Objects("Wood", "A piece of palm wood");
 
       public Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
@@ -142,7 +146,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(apple1);
-
+        Tree.dropObjects.add(Wood);
+        islandNorth.currentlyPlacedObjects.add(Tree);
         L1();
     }
 
@@ -176,6 +181,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
+
+       
 
         // SAMARTH
 
@@ -293,11 +300,15 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "attack":
                     cp.buttonWasPressed(4, input);
                     break;
-                case "eat":
+                case "cut":
+                case "chop":                    
                     cp.buttonWasPressed(5, input);
                     break;
+                case "eat":
+                    cp.buttonWasPressed(6, input);
+                    break;
                 case "?": //case "help":
-                    cp.buttonWasPressed(6,input);
+                    cp.buttonWasPressed(7,input);
                     break;
             }
         }
