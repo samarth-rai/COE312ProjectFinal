@@ -1,7 +1,7 @@
 import java.rmi.NoSuchObjectException;
 import java.util.NoSuchElementException;
 
-public class Player extends Character implements Runnable {
+public class Player extends Character implements Runnable, Movable {
     public Player(Subject[] subjects) {
         super(subjects);
         
@@ -55,11 +55,37 @@ public class Player extends Character implements Runnable {
        }
    }
 
+   public void checkInventory()
+   {
+        UI.print(this.name + "'s Inventory:");
+    UI.printArrayList(inventory);
+   }
+
     public void sleep()
     {   
         Message m = new Message(this,"sleep","");
         publishMessage(m);
         //Changes the state of clock to the next state;
+    }
+
+    public void travelTo(String destination)
+    {
+        this.travelTo(destination,false);
+    }
+
+    
+    public void travelTo(String destination, Boolean SILENT) {
+       
+      try{ Location des = GameMaster.findLocation(destination);
+        Message m = new Message(this,"travel",des.name);
+       if(!SILENT) UI.print(this.name + " has arrived at " + des.name);
+       publishMessage(m);}
+       
+      catch(NoSuchObjectException e){
+          UI.print(destination + " does not exist!");
+      }
+       
+        
     }
 
     public void inspect(String s)
@@ -73,6 +99,10 @@ public class Player extends Character implements Runnable {
         {
             flag++;
         }
+        catch(IndexOutOfBoundsException f)
+        {
+
+        }
 
         try{
             currentLocation.getObjects(s).inspect();
@@ -80,6 +110,10 @@ public class Player extends Character implements Runnable {
         catch(NoSuchElementException e)
         {
             flag++;
+        }
+        catch(IndexOutOfBoundsException f)
+        {
+
         }
 
         try{
@@ -89,8 +123,11 @@ public class Player extends Character implements Runnable {
         {
             flag++;
         }
+        catch(IndexOutOfBoundsException f)
+        {
 
-        if(flag==3)
+        }
+        if(flag>=3)
         {
             UI.print(s + " is not available here.");
         }
@@ -132,9 +169,28 @@ public class Player extends Character implements Runnable {
         }
     }
 
-   public void acquire(Objects o){
-       inventory.add(o);
-       currentLocation.currentlyPlacedObjects.remove(o);
+   public void acquire(String object) {
+
+    for(int i=0;i<currentLocation.currentlyPlacedObjects.size();i++)
+        {
+            if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
+            {
+                Objects o = currentLocation.currentlyPlacedObjects.get(i);
+                if(o.canCarry==true)
+                {
+                    inventory.add(o);
+                    currentLocation.currentlyPlacedObjects.remove(o);
+                }
+                else
+                {
+                    UI.print("You cannot carry this item!");
+                }
+                return;
+            }
+        }
+
+        UI.print(object + " is not available here!");
+      
    }
 
    public void takeItem(String s)

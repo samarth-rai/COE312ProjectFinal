@@ -47,7 +47,7 @@ public class Location extends AbstractObserverSubject implements Runnable
 	{
 		for(int i=0;i<currentlyPlacedCharacters.size();i++)
 		{
-			if(currentlyPlacedAnimals.get(i).name.equalsIgnoreCase(s))
+			if(currentlyPlacedCharacters.get(i).name.equalsIgnoreCase(s))
 				return currentlyPlacedCharacters.get(i);
 		}
 
@@ -58,7 +58,7 @@ public class Location extends AbstractObserverSubject implements Runnable
 	{
 		for(int i=0;i<currentlyPlacedObjects.size();i++)
 		{
-			if(currentlyPlacedAnimals.get(i).name.equalsIgnoreCase(s))
+			if(currentlyPlacedObjects.get(i).name.equalsIgnoreCase(s))
 				return currentlyPlacedObjects.get(i);
 		}
 
@@ -80,9 +80,13 @@ public class Location extends AbstractObserverSubject implements Runnable
 	public void update(Message m) {
         switch(m.topic.toLowerCase())
         {
-            case "travel request": 
+            case "travel": 
             {
-                currentlyPlacedCharacters.add((Character)m.origin);
+                if(m.payload.equalsIgnoreCase(this.name))
+				{
+					Player c = (Player)m.origin;
+					c.currentLocation=this;
+				}
             }
             break;
         }

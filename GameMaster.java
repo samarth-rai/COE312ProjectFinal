@@ -55,9 +55,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandEat cEat = new CommandEat(player);
     CommandInteract cInteract = new CommandInteract(player);
     CommandAttack cAttack = new CommandAttack(player);
+    CommandTravel cTravel = new CommandTravel(player);
+    CommandInventory cInventory = new CommandInventory(player);
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cInteract, cEat}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cInteract, cEat,cTravel, cInventory}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
 
     //Objects to be placed in locations
@@ -72,7 +74,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Food apple8 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple9 = new Food(player, "Apple", "An apple.", 10, islandNorth);
 
-     Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth);
+     Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth, false);
         Objects Wood = new Objects("Wood", "A piece of palm wood");
 
       public static Location findLocation(String l) throws NoSuchObjectException {
@@ -143,10 +145,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     public void intro() {
         
         //register all observers that couldn't be done before due to circular dependence.
-        islandEast.registerObserver(player);
-        islandWest.registerObserver(player);
-        islandNorth.registerObserver(player);
-        islandSouth.registerObserver(player);
+        player.registerObserver(islandEast);
+        player.registerObserver(islandNorth);
+        player.registerObserver(islandWest);
+        player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
 
@@ -289,7 +291,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         while (true) {
 
             launchWolf(); //Second objective to clear in the game.
-            UI.printNormal("Enter a command");
+            UI.printnln("command > ");
             input = UI.read();
             commands = input.split(" ");
             switch(commands[0].toLowerCase()){
@@ -317,9 +319,15 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                     break;
                 case "travel":
                     cp.buttonWasPressed(7, input);
-                case "?": //case "help":
-                    cp.buttonWasPressed(8,input);
                     break;
+                case "inventory":
+                    cp.buttonWasPressed(8, input);
+                    break;
+                case "?": //case "help":
+                    //cp.buttonWasPressed(100,input);
+                    break;
+                default:
+                UI.print("Invalid command!");
             }
         }
 

@@ -7,7 +7,7 @@ public class CommandInteract implements Command{
         this.p = pl;
     }
     public void execute(String input) {
-        String[] inputs= input.split("the");
+        String[] inputs= input.split("the ");
        if(inputs[1]==null)
        {
            UI.print("The command is invalid.");

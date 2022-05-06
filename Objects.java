@@ -9,14 +9,30 @@ public class Objects extends AbstractObserverSubject {
 	
 	String name;
 	String description;
+	Boolean canCarry = true;
+	public Objects(Subject[] subject, String name, String description, Boolean NOCARRY) {
+		super(subject);
+		this.name = name;
+		this.description = description;
+		this.canCarry = NOCARRY;
+	}
+
 	public Objects(Subject[] subject, String name, String description) {
 		super(subject);
 		this.name = name;
 		this.description = description;
 	}
+
+
 	public Objects(String name, String description) {
 		this.name = name;
 		this.description = description;
+	}
+
+	public Objects(String name, String description,Boolean NOCARRY) {
+		this.name = name;
+		this.description = description;
+		this.canCarry = NOCARRY;
 	}
 	@Override
 	public void update(Message m) {

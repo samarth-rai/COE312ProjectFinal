@@ -12,6 +12,12 @@ public class Consumables extends Objects {
 		super(name,description);
         currentLocation = spawnLocation;
 	}
+
+    public Consumables(String name, String description,Location spawnLocation, Boolean canCarry) {
+		super(name,description,canCarry);
+        currentLocation = spawnLocation;
+	}
+
 	
 	public void consume(){
         for(int i=0;i<dropObjects.size();i++)

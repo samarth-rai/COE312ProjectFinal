@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 //TODO - implement singleton for player class
 
-public abstract class Character extends AbstractObserverSubject implements Movable{
+public abstract class Character extends AbstractObserverSubject{
 
     public String name;
     public Integer inventorySize = 3;
@@ -62,24 +62,8 @@ public abstract class Character extends AbstractObserverSubject implements Movab
         this.inventory.remove(s);
 
     }
-    public void travelTo(String destination)
-    {
-        this.travelTo(destination,false);
-    }
-    @Override
-    public void travelTo(String destination, Boolean SILENT) {
-       
-      try{ Location des = GameMaster.findLocation(destination);
-        Message m = new Message(this,"Travel Request",des.name);
-       if(!SILENT) UI.print(this.name + " has arrived at " + des.name);
-       publishMessage(m);}
-       
-      catch(NoSuchObjectException e){
-          UI.print(destination + " does not exist!");
-      }
-       
-        
-    }
+    
+    
 
 
     public String toString()

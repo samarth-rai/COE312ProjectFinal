@@ -5,11 +5,18 @@ public class CommandInspect implements Command {
     CommandInspect(Player pl) {
         this.p = pl;
     }
-    public void execute(String x) {
-        
-        
+    public void execute(String input) {
+        String[] inputs= input.split("inspect ");
+        try{
+            p.inspect(inputs[1]);
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            UI.print("Invalid command syntax!");
+        }
     }
     public void undo() {
-        UI.print("This cannot be undone");
+       UI.print("This command cannot be undone!");
     }
+   
 }

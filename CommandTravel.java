@@ -7,7 +7,7 @@ public class CommandTravel implements Command {
     }
     public void execute(String input) {
       
-        String[] inputs= input.split("to");
+        String[] inputs= input.split("to ");
        if(inputs[1]==null)
        {
            UI.print("The command is invalid.");

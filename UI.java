@@ -16,6 +16,17 @@ public class UI {
         System.out.print("\n");
     }
 
+    public static synchronized void printnln(Object s) {
+        for (int i = 0; i < s.toString().length(); i++) {
+
+            System.out.print(s.toString().charAt(i));
+            try {
+                Thread.sleep(25);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static synchronized void printNormal(Object s) {
         System.out.println(s);
     }
