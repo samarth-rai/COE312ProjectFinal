@@ -26,9 +26,11 @@ public class UI {
         }
     }
 
-    public static synchronized String read() {
+    public static String read() {
         Scanner s = new Scanner(System.in);
         return s.nextLine();
     }
+
+  
 
 }

@@ -6,10 +6,14 @@ public class Undead extends Character implements Context{
         super(subjects);
     }
 
-    public Undead(String name) {
-        super(name);
+    public Undead(String name, Location spawnLocation, Integer health, Integer inventorySize, String description) {
+       super(name,spawnLocation,health,inventorySize,description);
+       spawnLocation.currentlyPlacedCharacters.add(this);
     }
 
+    
+    
+    //Methods to control state pattern
     @Override
     public void previousState() {
         state.prev(this);

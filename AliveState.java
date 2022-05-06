@@ -17,7 +17,6 @@ public class AliveState implements State {
         
     }
 
-    @Override
     public void printStatus(Context context) {
         
         Character character = (Character)context;

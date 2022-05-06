@@ -6,10 +6,11 @@ import java.util.Scanner;
 
 //Controls the gameplay behavior of the class
 //Runnable as this thread will control the game progression
-public class GameMaster implements Runnable {
+public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     private static GameMaster instance;
-    
+
+
     public String introduction = "In 1995, Chuck Noland, a systems analyst executive," +
             "travels the world resolving productivity problems at FedEx depots. " +
             "He lives with his girlfriend Kelly Frears in Memphis, Tennessee," +
@@ -23,6 +24,7 @@ public class GameMaster implements Runnable {
             
     FileInputStream configFile;
     FileInputStream logFile;
+   
     // Creating all locations
     IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
     IslandSouth islandSouth = new IslandSouth("Island South", "The south of the island");
@@ -31,27 +33,44 @@ public class GameMaster implements Runnable {
     
     Location[] locationList = { islandNorth,islandSouth,islandEast,islandWest };
 
-
-    //Creating Objects for locations
-    Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris.");
-    
-    islandEast.currentlyPlacedObjects.add(axe);
-
-    
+    //Mandatory Instances
     Character[] characterList;
+    Objectives objectives = new Objectives();
     Clock clock = new Clock();
     Map map = new Map();
+    
+    //Variables that store gamedata.
     ArrayList<Boolean> VisitedLocations = new ArrayList<Boolean>();
+   
+
+    //Auxilary Variables
     Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
     Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
+
+    //Commands for control panel
     CommandLook cLook = new CommandLook(player);
     CommandInspect cInspect = new CommandInspect(player);
     CommandAcquire cAcquire = new CommandAcquire(player);
     CommandTakeItem cTakeItem = new CommandTakeItem(player);
+    CommandEat cEat = new CommandEat(player);
     CommandAttack cAttack = new CommandAttack(player);
 
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack}; // add more commands as needed
+    //Control panel and command array
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cEat, cAttack}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
+
+    //Objects to be placed in locations
+     //Creating Objects for locations
+     Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris."); 
+     Food apple1 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple2 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple3 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple4 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple5 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple6 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple7 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple8 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Food apple9 = new Food(player, "Apple", "An apple.", 10, islandNorth);
 
       public Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
@@ -73,14 +92,63 @@ public class GameMaster implements Runnable {
         return instance;
     }
 
+    
+    //Objective Mission Functions
+
+    public void launchWolf()
+    {
+        if (Objectives.fightWolf==false && Objectives.foundAxe == true && clock.inGameHours >= 17) {
+            Message m = new Message(this, "objective", "fightWolf");
+            publishMessage(m);
+            Animal wolf1 = new Animal("Wolf", "white", "fur", "wild");
+            islandEast.currentlyPlacedAnimals.add(wolf1);
+           
+            UI.printNormal("\n"
+            + "                             .d$$b\n"
+            + "                           .' TO$;\\\n"
+            + "                          /  : TP._;\n"
+            + "                         / _.;  :Tb|\n"
+            + "                        /   /   ;j$j\n"
+            + "                    _.-\"       d$$$$\n"
+            + "                  .' ..       d$$$$;\n"
+            + "                 /  /P'      d$$$$P. |\\\n"
+            + "                /   \"      .d$$$P' |\\^\"l\n"
+            + "              .'           `T$P^\"\"\"\"\"  :\n"
+            + "          ._.'      _.'                ;\n"
+            + "       `-.-\".-'-' ._.       _.-\"    .-\"\n"
+            + "     `.-\" _____  ._              .-\"\n"
+            + "    -(.g$$$$$$$b.              .'\n"
+            + "      \"\"^^T$$$P^)            .(:\n"
+            + "        _/  -\"  /.'         /:/;\n"
+            + "     ._.'-'`-'  \")/         /;/;\n"
+            + "  `-.-\"..--\"\"   \" /         /  ;\n"
+            + " .-\" ..--\"\"        -'          :\n"
+            + " ..--\"\"--.-\"         (\\      .-(\\\n"
+            + "   ..--\"\"              `-\\(\\/;`\n"
+            + "     _.                      :\n"
+            + "                             ;`-\n"
+            + "                            :\\\n"
+            + "                            ;  ");
+    
+            UI.print("A wolf has appeared and it seems to be approaching you to attack!");
+            wolf1.registerObserver(player);
+        }
+    }
+    
+    
+    
     public void intro() {
-        UI.print(introduction);
+        this.registerObserver(objectives);
+        //UI.print(introduction);
+        islandEast.currentlyPlacedObjects.add(axe);
+        islandNorth.currentlyPlacedObjects.add(apple1);
+
         L1();
     }
 
     public   void L1() {
         
-        UI.print("You discover next to you the corpse of pilot Vikram Kumar");
+        
 
         // DONE - Notification(from location): New Location Unlocked
 
@@ -94,7 +162,7 @@ public class GameMaster implements Runnable {
 
       
         // Create Undead Pilot
-        Undead FedExPilot = new Undead("Vikram Kumar");
+        Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
         Objects idCard = new Objects(stdSubjects, "Vikram Kumar's ID Card",
                 "A pilot license that belongs to vikram kumar");
         Objects wallet = new Objects(stdSubjects, "Vikram Kumar's Wallet",
@@ -108,7 +176,6 @@ public class GameMaster implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        islandNorth.currentlyPlacedCharacters.add(FedExPilot);
 
         // SAMARTH
 
@@ -205,48 +272,14 @@ public class GameMaster implements Runnable {
         String input;
         String[] commands;
         while (true) {
-            
-            
-                if (Objectives.fightWolf==false && Objectives.foundAxe == true && clock.inGameHours >= 5) {
-                    Animal wolf1 = new Animal("Wolf", "white", "fur");
-                    islandEast.currentlyPlacedAnimals.add(wolf1);
-                   
-                    UI.printNormal("\n"
-                    + "                             .d$$b\n"
-                    + "                           .' TO$;\\\n"
-                    + "                          /  : TP._;\n"
-                    + "                         / _.;  :Tb|\n"
-                    + "                        /   /   ;j$j\n"
-                    + "                    _.-\"       d$$$$\n"
-                    + "                  .' ..       d$$$$;\n"
-                    + "                 /  /P'      d$$$$P. |\\\n"
-                    + "                /   \"      .d$$$P' |\\^\"l\n"
-                    + "              .'           `T$P^\"\"\"\"\"  :\n"
-                    + "          ._.'      _.'                ;\n"
-                    + "       `-.-\".-'-' ._.       _.-\"    .-\"\n"
-                    + "     `.-\" _____  ._              .-\"\n"
-                    + "    -(.g$$$$$$$b.              .'\n"
-                    + "      \"\"^^T$$$P^)            .(:\n"
-                    + "        _/  -\"  /.'         /:/;\n"
-                    + "     ._.'-'`-'  \")/         /;/;\n"
-                    + "  `-.-\"..--\"\"   \" /         /  ;\n"
-                    + " .-\" ..--\"\"        -'          :\n"
-                    + " ..--\"\"--.-\"         (\\      .-(\\\n"
-                    + "   ..--\"\"              `-\\(\\/;`\n"
-                    + "     _.                      :\n"
-                    + "                             ;`-\n"
-                    + "                            :\\\n"
-                    + "                            ;  ");
-            
-                    UI.print("A wolf has appeared and it seems to be approaching you to attack!");
-                    wolf1.registerObserver(player);
-                }
-    
+
+            launchWolf(); //Second objective to clear in the game.
             UI.printNormal("Enter a command");
             input = UI.read();
             commands = input.split(" ");
-            switch(commands[0]){
+            switch(commands[0].toLowerCase()){
                 case "look":
+                    UI.print("inside look!");
                     cp.buttonWasPressed(0,input);
                     break;
                 case "inspect":
@@ -261,8 +294,21 @@ public class GameMaster implements Runnable {
                 case "attack":
                     cp.buttonWasPressed(4, input);
                     break;
+                case "eat":
+                    UI.print("In eat");
+                    cp.buttonWasPressed(5, input);
+                    break;
+                case "?": //case "help":
+                    cp.buttonWasPressed(6,input);
+                    break;
             }
         }
 
+    }
+
+    @Override
+    public void update(Message m) {
+        
+        
     }
 }

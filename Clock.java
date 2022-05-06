@@ -5,7 +5,7 @@
 
 import java.util.GregorianCalendar;
 
-public class Clock extends AbstractSubject implements Runnable{
+public class Clock extends AbstractObserverSubject implements Runnable, Context{
 GregorianCalendar time = new GregorianCalendar(2022, 5, 5, 16, 00); // starting the game on 5 may 2022, at 4pm
 int minCount=0;
 Integer dayCount=0;
@@ -17,6 +17,7 @@ public Clock()
     t.start();
 }
 
+State state = new MorningState();
 
 @Override
 public void run()
@@ -48,6 +49,48 @@ public void run()
 
     minCount++;
    } 
+}
+
+
+@Override
+public void update(Message m) {
+
+    if(m.topic=="sleep")
+    {
+        this.nextState();
+        if(this.state.getClass().getSimpleName().equals("MorningState"))
+        {
+            
+        }
+    }
+    
+}
+
+
+@Override
+public void previousState() {
+    
+}
+
+
+@Override
+public void nextState() {
+    // TODO Auto-generated method stub
+    
+}
+
+
+@Override
+public void printStatus() {
+    // TODO Auto-generated method stub
+    
+}
+
+
+@Override
+public void setState(State state) {
+    // TODO Auto-generated method stub
+    
 }
 
 

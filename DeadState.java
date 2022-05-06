@@ -13,7 +13,6 @@ public class DeadState implements State{
 
     }
 
-    @Override
     public void printStatus(Context context) {
        Character character = (Character)context;
        UI.print(character.name + " has died.");

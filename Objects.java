@@ -3,7 +3,7 @@ import java.util.ArrayList;
 // Package not detected, please report project structure on CodeTogether's GitHub Issues
 
 
-public class Objects extends AbstractObserver{
+public class Objects extends AbstractObserverSubject {
     //likely objects would observe the character and act upon it
     //hence all objects can be constructor
 	
@@ -20,7 +20,7 @@ public class Objects extends AbstractObserver{
 	}
 	@Override
 	public void update(Message m) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -29,5 +29,9 @@ public class Objects extends AbstractObserver{
 		UI.print(name + "\n");
     }
     
+	public String toString()
+	{
+		return this.name + ": " + this.description;
+	}
 
 }

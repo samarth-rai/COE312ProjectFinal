@@ -10,7 +10,7 @@ public class PounceAttack extends AttackType
 	void Attack() {
 		Animal attackingAnimal = (Animal) attacker;
 		UI.print(attackingAnimal.name + " pounced on you!");
-        Message m = new Message(attackingAnimal,"attack","5");
+        Message m = new Message(attackingAnimal,"attack","10");
 		attackingAnimal.publishMessage(m);
 	}
     
