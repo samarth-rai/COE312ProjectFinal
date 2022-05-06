@@ -26,12 +26,12 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     FileInputStream logFile;
    
     // Creating all locations
-    IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
-    IslandSouth islandSouth = new IslandSouth("Island South", "The south of the island");
-    IslandEast islandEast = new IslandEast("Island East", "The east of the island");
-    IslandWest islandWest = new IslandWest("Island West", "The west of the island");
+    static IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
+    static IslandSouth islandSouth = new IslandSouth("Island South", "The south of the island");
+    static IslandEast islandEast = new IslandEast("Island East", "The east of the island");
+    static IslandWest islandWest = new IslandWest("Island West", "The west of the island");
     
-    Location[] locationList = { islandNorth,islandSouth,islandEast,islandWest };
+    static Location[] locationList = { islandNorth,islandSouth,islandEast,islandWest };
 
     //Mandatory Instances
     Character[] characterList;
@@ -61,7 +61,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     ControlPanel cp = new ControlPanel(cmds);
 
     //Objects to be placed in locations
-     //Creating Objects for locations
      Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris."); 
      Food apple1 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple2 = new Food(player, "Apple", "An apple.", 10, islandNorth);
@@ -76,7 +75,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth);
         Objects Wood = new Objects("Wood", "A piece of palm wood");
 
-      public Location findLocation(String l) throws NoSuchObjectException {
+      public static Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
             if (loc.name.equalsIgnoreCase(l))
                 return loc;
@@ -142,7 +141,16 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     
     
     public void intro() {
+        
+        //register all observers that couldn't be done before due to circular dependence.
+        islandEast.registerObserver(player);
+        islandWest.registerObserver(player);
+        islandNorth.registerObserver(player);
+        islandSouth.registerObserver(player);
         this.registerObserver(objectives);
+
+
+
         //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(apple1);
@@ -307,8 +315,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "eat":
                     cp.buttonWasPressed(6, input);
                     break;
+                case "travel":
+                    cp.buttonWasPressed(7, input);
                 case "?": //case "help":
-                    cp.buttonWasPressed(7,input);
+                    cp.buttonWasPressed(8,input);
                     break;
             }
         }

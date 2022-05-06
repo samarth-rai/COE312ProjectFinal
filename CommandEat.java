@@ -7,7 +7,7 @@ public class CommandEat implements Command {
     }
     public void execute(String input) {
       
-        String[] inputs= input.split(" ");
+        String[] inputs= input.split("eat");
        if(inputs[1]==null)
        {
            UI.print("The command is invalid.");

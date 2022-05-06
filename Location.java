@@ -18,9 +18,7 @@ public class Location extends AbstractObserverSubject implements Runnable
 	// This arraylist contains all the objects present at the current location
 	
     
-	Location(Subject[] s){
-		
-		}
+
 		
 	public Location(String name, String description) {
 		this.name = name;
