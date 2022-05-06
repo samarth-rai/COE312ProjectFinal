@@ -24,12 +24,19 @@ public class GameMaster implements Runnable {
     FileInputStream configFile;
     FileInputStream logFile;
     // Creating all locations
-    IslandNorth islandNorth = new IslandNorth();
-    IslandSouth islandSouth = new IslandSouth();
-    IslandEast islandEast = new IslandEast();
-    IslandWest islandWest = new IslandWest();
+    IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
+    IslandSouth islandSouth = new IslandSouth("Island South", "The south of the island");
+    IslandEast islandEast = new IslandEast("Island East", "The east of the island");
+    IslandWest islandWest = new IslandWest("Island West", "The west of the island");
     
-    Location[] locationList = {islandNorth,islandSouth,islandEast,islandWest};
+    Location[] locationList = { islandNorth,islandSouth,islandEast,islandWest };
+
+
+    //Creating Objects for locations
+    Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris.");
+    
+    islandEast.currentlyPlacedObjects.add(axe);
+
     
     Character[] characterList;
     Clock clock = new Clock();
@@ -43,7 +50,7 @@ public class GameMaster implements Runnable {
     CommandTakeItem cTakeItem = new CommandTakeItem(player);
     CommandAttack cAttack = new CommandAttack(player);
 
-    Command [] cmds = {cLook, cInspect}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
 
       public Location findLocation(String l) throws NoSuchObjectException {
@@ -241,8 +248,19 @@ public class GameMaster implements Runnable {
             switch(commands[0]){
                 case "look":
                     cp.buttonWasPressed(0,input);
+                    break;
                 case "inspect":
                     cp.buttonWasPressed(1, input);
+                    break;
+                case "acquire":
+                    cp.buttonWasPressed(2, input);
+                    break;
+                case "take":
+                    cp.buttonWasPressed(3, input);
+                    break;
+                case "attack":
+                    cp.buttonWasPressed(4, input);
+                    break;
             }
         }
 

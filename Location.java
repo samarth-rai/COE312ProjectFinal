@@ -2,6 +2,8 @@ import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import javax.management.modelmbean.DescriptorSupport;
+
 //This class is for locations, it is runnable to publish messages
 
 public class Location extends AbstractObserverSubject implements Runnable
@@ -9,8 +11,8 @@ public class Location extends AbstractObserverSubject implements Runnable
 
     public String name;
 	public String description;
-	Boolean visited = false;
-	static ArrayList<Objects> currentlyPlacedObjects = new ArrayList<Objects>(); 
+	public Boolean visited = false;
+	public ArrayList<Objects> currentlyPlacedObjects = new ArrayList<Objects>(); 
 	public ArrayList<Animal> currentlyPlacedAnimals = new ArrayList<Animal>();
 	public ArrayList<Character> currentlyPlacedCharacters = new ArrayList<Character>();
 	// This arraylist contains all the objects present at the current location
@@ -20,7 +22,9 @@ public class Location extends AbstractObserverSubject implements Runnable
 		
 		}
 		
-	public Location() {
+	public Location(String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 
 	@Override

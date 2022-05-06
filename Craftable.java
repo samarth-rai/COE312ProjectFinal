@@ -1,13 +1,14 @@
-public abstract class Craftable{
+public abstract class Craftable //IMPLEMENTS TEMPLATE PATTERN
+{
     final void craftItem()
     {
         UseWood(); //common
         UseLeaves();//common
-        if(UsingStones()){
+        if(PlayerUsingStones()) //bool func
+        {
             RubbingStones();
         }
-        Completed();
-        
+        Completed();    //abstract func
     }
     
 // for creating fire -> place wood -> placeLeaf-> rub stones (sensor) (blow on the fire to make it going, use mic)
@@ -23,7 +24,7 @@ public abstract class Craftable{
     { 
         UI.print("using leaves");
     }
-    private boolean UsingStones(){
+    private boolean PlayerUsingStones(){
         return false;
     }
 

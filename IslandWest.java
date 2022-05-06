@@ -4,7 +4,8 @@ public class IslandWest extends Location{
         super(s);
     }
 
-    public IslandWest() {
+    public IslandWest(String x, String y) {
+    super(x,y);
     }
 
 

@@ -8,7 +8,7 @@ public abstract class Character extends AbstractObserverSubject implements Movab
     public Integer inventorySize = 3;
     public Integer health = 100; //default health for all characters
     ArrayList<Objects> inventory = new ArrayList<Objects>();
-    Location currentLocation = new Location();
+    Location currentLocation;// = new Location();
 
     public Character(Subject[] subjects) {
         super(subjects);
