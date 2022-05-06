@@ -54,12 +54,13 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandTakeItem cTakeItem = new CommandTakeItem(player);
     CommandEat cEat = new CommandEat(player);
     CommandInteract cInteract = new CommandInteract(player);
-    CommandAttack cAttack = new CommandAttack(player);
+    CommandBattle cBattle = new CommandBattle(player);
     CommandTravel cTravel = new CommandTravel(player);
     CommandInventory cInventory = new CommandInventory(player);
+    CommandHealth cHealth = new CommandHealth(player);
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cInteract, cEat,cTravel, cInventory}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
 
     //Objects to be placed in locations
@@ -191,7 +192,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-
+        FedExPilot.nextState();
        
 
         // SAMARTH
@@ -307,7 +308,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "take":
                     cp.buttonWasPressed(3, input);
                     break;
-                case "attack":
+                case "battle":
                     cp.buttonWasPressed(4, input);
                     break;
                 case "cut":
@@ -322,6 +323,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                     break;
                 case "inventory":
                     cp.buttonWasPressed(8, input);
+                    break;
+                case "health":
+                    cp.buttonWasPressed(9, input);
                     break;
                 case "?": //case "help":
                     //cp.buttonWasPressed(100,input);

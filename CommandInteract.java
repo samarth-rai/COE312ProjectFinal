@@ -8,13 +8,14 @@ public class CommandInteract implements Command{
     }
     public void execute(String input) {
         String[] inputs= input.split("the ");
-       if(inputs[1]==null)
-       {
-           UI.print("The command is invalid.");
-       }
-       else
-        p.interact(inputs[1]);
-    }
+        try{
+            p.interact(inputs[1]);
+           }
+           catch(IndexOutOfBoundsException e)
+           {
+               UI.print("Invalid command syntax!");
+           }
+        }
     public void undo() {
        UI.print("This command cannot be undone!");
     }

@@ -7,13 +7,14 @@ public class CommandEat implements Command {
     }
     public void execute(String input) {
       
-        String[] inputs= input.split("eat");
-       if(inputs[1]==null)
-       {
-           UI.print("The command is invalid.");
-       }
-       else
+        String[] inputs= input.split("eat ");
+       try{
         p.eat(inputs[1]);
+       }
+       catch(IndexOutOfBoundsException e)
+       {
+           UI.print("Invalid command syntax!");
+       }
     }
     public void undo() {
        UI.print("This command cannot be undone!");

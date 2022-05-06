@@ -10,6 +10,8 @@ public class Player extends Character implements Runnable, Movable {
     private static Player instance;
     private Player(Subject[] subjects,String name, Location currentLocation, Integer health, Integer inventorySize) {
         super(subjects,name,currentLocation,health, inventorySize);
+        Thread th = new Thread(this);
+        th.start();
         
     }
 
@@ -53,12 +55,21 @@ public class Player extends Character implements Runnable, Movable {
            System.exit(0);
         
        }
+       if(health>fullHealth)
+       {
+           health=fullHealth;//Normalizes health;
+       }
    }
 
    public void checkInventory()
    {
         UI.print(this.name + "'s Inventory:");
     UI.printArrayList(inventory);
+   }
+
+   public void viewHealth()
+   {
+       UI.print(this.name + "'s health is: " + this.health + "/" + this.fullHealth);
    }
 
     public void sleep()
@@ -193,6 +204,31 @@ public class Player extends Character implements Runnable, Movable {
       
    }
 
+   public void battle(String character)
+   {
+       try{
+           Character theLoser = currentLocation.getCharacter(character);
+           this.registerObserver(theLoser);
+           theLoser.attack(this);
+            return;
+    
+        }
+       catch(NoSuchElementException e)
+       {
+            
+       }
+       try{
+        Animal theLoser = currentLocation.getAnimal(character);
+        this.registerObserver(theLoser);
+        theLoser.attack(this);
+ 
+        }
+        catch(NoSuchElementException e)
+        {
+             UI.print(character + " is not available for battle!");
+        }
+   }
+
    public void takeItem(String s)
    {
        String[] commands = s.split(" ");
@@ -203,7 +239,11 @@ public class Player extends Character implements Runnable, Movable {
     @Override
     public void run() 
     {
-        checkHealth();
+        while(true)
+        {
+            checkHealth();
+        }
+        
 
     }
 

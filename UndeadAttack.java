@@ -6,7 +6,10 @@ public class UndeadAttack extends AttackType{
     }
 
     void Attack(){
-        UI.print("Attacking with sword");
+        Undead undead = (Undead) attacker;
+        UI.print(undead.name + " is performing a zombie attack!");
+        Message m = new Message(attacker, "attack", "15");
+        undead.publishMessage(m);
     }
 
 

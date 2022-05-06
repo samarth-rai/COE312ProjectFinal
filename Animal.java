@@ -8,15 +8,20 @@ public class Animal extends AbstractObserverSubject implements Runnable {
     Integer health = 30; //default health for all animals
     AttackType aType;
     
-    public void attack()
-    {
+    public void attack(Character character)
+    {   
+        this.registerObserver(character);
         if(type.equals("domestic"))
             {   
                 aType = new NoAttack(this);
+                Thread th = new Thread(this);
+                th.start();
             }
         else
         {
             aType = new ScratchAttack(this);
+            Thread th = new Thread(this);
+            th.start();
         }
     }
     
@@ -25,8 +30,7 @@ public class Animal extends AbstractObserverSubject implements Runnable {
         color = Acolor;
         skinType = AskinType;
         this.type = type;
-        Thread th = new Thread(this);
-        th.start();
+        
     }
 
 
@@ -37,8 +41,6 @@ public class Animal extends AbstractObserverSubject implements Runnable {
         skinType = AskinType;
         this.health = health;
         this.type = type;
-        Thread th = new Thread(this);
-        th.start();
     }
 
     public String toString() {

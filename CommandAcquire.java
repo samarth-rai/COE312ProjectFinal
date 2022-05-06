@@ -1,21 +1,20 @@
 public class CommandAcquire implements Command {
     Player p;
 
-
     CommandAcquire(Player pl) {
         this.p = pl;
     }
+
     public void execute(String input) {
-      
-        String[] inputs= input.split("acquire ");
-       if(inputs[1]==null)
-       {
-           UI.print("The command is invalid.");
-       }
-       else
-        p.acquire(inputs[1]);
+
+        String[] inputs = input.split("acquire ");
+        try {
+            p.acquire(inputs[1]);
+        } catch (IndexOutOfBoundsException e) {
+            UI.print("Invalid command syntax!");
+        }
     }
-  
+
     public void undo() {
         UI.print("This cannot be undone");
     }

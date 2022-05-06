@@ -4,6 +4,7 @@ public class AliveState implements State {
     public void prev(Context context) {
         context.setState(new UndeadState());
         
+        
     }
 
     @Override

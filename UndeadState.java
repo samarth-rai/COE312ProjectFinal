@@ -3,7 +3,9 @@ public class UndeadState implements State{
     @Override
     public void prev(Context context) throws NoSuchMethodError {
        
-        throw new NoSuchMethodError();
+        context.setState(new DeadState());
+        Character character = (Character)context;
+        character.health = 0;
         
     }
 
@@ -11,6 +13,8 @@ public class UndeadState implements State{
     public void next(Context context) {
        
         context.setState(new AliveState());
+        Character character = (Character)context;
+        character.health = character.fullHealth;
         
     }
 

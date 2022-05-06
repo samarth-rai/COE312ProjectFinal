@@ -7,7 +7,8 @@ public abstract class Character extends AbstractObserverSubject{
 
     public String name;
     public Integer inventorySize = 3;
-    public Integer health = 100; //default health for all characters
+    public Integer health; //default health for all characters
+    public Integer fullHealth;
     ArrayList<Objects> inventory = new ArrayList<Objects>();
     Location currentLocation;// = new Location();
     String description;
@@ -19,7 +20,8 @@ public abstract class Character extends AbstractObserverSubject{
         super(subjects);
         this.name = name;
         this.currentLocation = spawnLocation;
-        this.health = health;
+        this.fullHealth = health;
+        this.health = this.fullHealth;
         this.inventorySize = inventorySize;
         this.description = description;
     }
@@ -28,14 +30,16 @@ public abstract class Character extends AbstractObserverSubject{
         super(subjects);
         this.name = name;
         this.currentLocation = spawnLocation;
-        this.health = health;
+        this.fullHealth = health;
+        this.health = this.fullHealth;
         this.inventorySize = inventorySize;
     }
 
     public Character(String name, Location spawnLocation, Integer health, Integer inventorySize, String description) {
         this.name = name;
         this.currentLocation = spawnLocation;
-        this.health = health;
+        this.fullHealth = health;
+        this.health = this.fullHealth;
         this.inventorySize = inventorySize;
         this.description = description;
     }
@@ -63,6 +67,10 @@ public abstract class Character extends AbstractObserverSubject{
 
     }
     
+    public void attack(Character c)
+    {
+
+    }
     
 
 
@@ -94,7 +102,7 @@ public abstract class Character extends AbstractObserverSubject{
 
             case "attack":{
                 this.health -= Integer.parseInt(m.payload);
-                UI.print(this.name + "'s health has decreased by" + m.payload + " points." );
+                UI.print(this.name + "'s health has decreased by " + m.payload + " points." );
             }
                 break;
             case "food":{

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class AbstractObserverSubject implements Subject, Observer {
 
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
+	public ArrayList<Observer> observers = new ArrayList<Observer>();
 	private Subject[] subject;
 
 	public AbstractObserverSubject()
