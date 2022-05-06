@@ -69,6 +69,13 @@ public abstract class Character extends AbstractObserverSubject implements Movab
        publishMessage(m);
     }
 
+
+    public String toString()
+    {
+        return this.name;
+    }
+
+
     public void update(Message m)
     {
         switch(m.topic.toLowerCase())

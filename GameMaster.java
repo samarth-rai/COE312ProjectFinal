@@ -56,7 +56,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandAttack cAttack = new CommandAttack(player);
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cEat, cAttack}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cAttack, cEat}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
 
     //Objects to be placed in locations
@@ -279,7 +279,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             commands = input.split(" ");
             switch(commands[0].toLowerCase()){
                 case "look":
-                    UI.print("inside look!");
                     cp.buttonWasPressed(0,input);
                     break;
                 case "inspect":
@@ -295,7 +294,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                     cp.buttonWasPressed(4, input);
                     break;
                 case "eat":
-                    UI.print("In eat");
                     cp.buttonWasPressed(5, input);
                     break;
                 case "?": //case "help":

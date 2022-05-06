@@ -13,6 +13,7 @@ public class Food extends Consumables{
     {
         Message m = new Message(this,"food","40");
         publishMessage(m);
+        currentLocation.currentlyPlacedObjects.remove(this);
     }
 
     
