@@ -148,7 +148,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
-        //UI.print(introduction);
+        UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(apple1);
         Tree.dropObjects.add(Wood);
@@ -290,7 +290,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandInventory cInventory = new CommandInventory(player);//8
     CommandHealth cHealth = new CommandHealth(player);//9
     CommandMap cMap = new CommandMap(player);//10
-    Command cHelp = new CommandHelp(player);//11
+    CommandHelp cHelp = new CommandHelp(player);//11
 
     //Control panel and command array
     Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cHelp}; // add more commands as needed

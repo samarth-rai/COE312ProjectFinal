@@ -109,7 +109,7 @@ public class Animal extends AbstractObserverSubject implements Runnable {
             } catch (InterruptedException e) {
                
             }
-            checkHealth();
+            deadYet();
         }
         
     }
