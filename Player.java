@@ -156,7 +156,7 @@ public class Player extends Character implements Runnable, Movable {
         "\ntravel <location>"+
         "\ninventory"+
         "\nhealth"+
-        "\nmap");
+        "\nmap lol");
 
     }
 
