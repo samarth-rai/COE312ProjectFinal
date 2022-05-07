@@ -9,42 +9,158 @@ public class Map {
 		}
 		return instance;
 	}
-    public void showmap(){
-        //ideally i wanna pass something as a parameter to this function which will then determine what names of the ocations we have to show on the map.
-        //still need to add the names of the places in this map.
-        UI.print("\n                                                                                "+
-        "\n                                                                                "+
-        "\n                                                    ███████                     "+
-        "\n    ████            ███                        █████       ██                   "+
-        "\n    █  █ █       ████ ██                    ███             ██                  "+
-        "\n    █  █████  ███       ██               ████                ██                 "+
-        "\n    █      ███           ████████████████                     █                 "+
-        "\n    █                                                          █                "+
-        "\n    ██                   North Island                          █                "+
-        "\n     █                                                         █                "+
-        "\n     ██                                                        ██               "+
-        "\n      █                                                         ███             "+
-        "\n      ██                                                          ████          "+
-        "\n       ██                                                            ██         "+
-        "\n        █                                                             ██        "+
-        "\n        █                                                              ██       "+
-        "\n         █                                                              █       "+
-        "\n         █                                                               █      "+
-        "\n         █                                                               █      "+
-        "\n         █                                                                █     "+
-        "\n         █                                                                █     "+
-        "\n         █                                                                █     "+
-        "\n        █                                                                 ██    "+
-        "\n       ██                                                                 █     "+
-        "\n       █                                                                ██      "+
-        "\n      ██                                                               ██       "+
-        "\n      █                                                              ███        "+
-        "\n      █                                                            ███          "+
-        "\n      ██                                                         ███            "+
-        "\n       ██                             ██████                 ████               "+
-        "\n         ██                   █████████    ██████████████████                   "+
-        "\n           █████         ██████                                                 "+
-        "\n                █████████                                                       "+
-        "\n                                                                                ");
+    public void showmap(Location currentLocation){
+        if(currentLocation.name.equalsIgnoreCase("Island North"))
+        {
+            UI.print("\n                                                                                "+
+            "\n                                                                                "+
+            "\n                                                    ███████                     "+
+            "\n    ████            ███                        █████       ██                   "+
+            "\n    █  █ █       ████ ██                    ███             ██                  "+
+            "\n    █  █████  ███       ██               ████                ██                 "+
+            "\n    █      ███           ████████████████                     █                 "+
+            "\n    █                                                          █                "+
+            "\n    ██                     Island North                        █                "+
+            "\n     █                                                         █                "+
+            "\n     ██                      (X)  <- You are here               ██               "+
+            "\n      █                                                         ███             "+
+            "\n      ██                                                          ████          "+
+            "\n       ██                                                            ██         "+
+            "\n        █                                                             ██        "+
+            "\n        █                                                              ██       "+
+            "\n         █                                                              █       "+
+            "\n         █ Island East                                    Island West    █      "+
+            "\n         █                                                               █      "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n        █                                                                 ██    "+
+            "\n       ██                                                                 █     "+
+            "\n       █                                                                ██      "+
+            "\n      ██                                                               ██       "+
+            "\n      █                                                              ███        "+
+            "\n      █                        Island South                        ███          "+
+            "\n      ██                                                         ███            "+
+            "\n       ██                             ██████                 ████               "+
+            "\n         ██                   █████████    ██████████████████                   "+
+            "\n           █████         ██████                                                 "+
+            "\n                █████████                                                       "+
+            "\n                                                                                ");
+        }
+        else if(currentLocation.name.equalsIgnoreCase("Island East"))
+        {
+            UI.print("\n                                                                                "+
+            "\n                                                                                "+
+            "\n                                                    ███████                     "+
+            "\n    ████            ███                        █████       ██                   "+
+            "\n    █  █ █       ████ ██                    ███             ██                  "+
+            "\n    █  █████  ███       ██               ████                ██                 "+
+            "\n    █      ███           ████████████████                     █                 "+
+            "\n    █                                                          █                "+
+            "\n    ██                     Island North                        █                "+
+            "\n     █                                                         █                "+
+            "\n     ██                                                         ██               "+
+            "\n      █                                                         ███             "+
+            "\n      ██                                                          ████          "+
+            "\n       ██                                                            ██         "+
+            "\n        █                                                             ██        "+
+            "\n        █                                                              ██       "+
+            "\n         █                                                              █       "+
+            "\n         █ Island East                                    Island West    █      "+
+            "\n         █  (X)  <- You are here                                          █      "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n        █                                                                 ██    "+
+            "\n       ██                                                                 █     "+
+            "\n       █                                                                ██      "+
+            "\n      ██                                                               ██       "+
+            "\n      █                                                              ███        "+
+            "\n      █                        Island South                        ███          "+
+            "\n      ██                                                         ███            "+
+            "\n       ██                             ██████                 ████               "+
+            "\n         ██                   █████████    ██████████████████                   "+
+            "\n           █████         ██████                                                 "+
+            "\n                █████████                                                       "+
+            "\n                                                                                ");
+        }
+
+        else if(currentLocation.name.equalsIgnoreCase("Island West"))
+        {
+            UI.print("\n                                                                                "+
+            "\n                                                                                "+
+            "\n                                                    ███████                     "+
+            "\n    ████            ███                        █████       ██                   "+
+            "\n    █  █ █       ████ ██                    ███             ██                  "+
+            "\n    █  █████  ███       ██               ████                ██                 "+
+            "\n    █      ███           ████████████████                     █                 "+
+            "\n    █                                                          █                "+
+            "\n    ██                     Island North                        █                "+
+            "\n     █                                                         █                "+
+            "\n     ██                                                         ██               "+
+            "\n      █                                                         ███             "+
+            "\n      ██                                                          ████          "+
+            "\n       ██                                                            ██         "+
+            "\n        █                                                             ██        "+
+            "\n        █                                                              ██       "+
+            "\n         █                                                              █       "+
+            "\n         █ Island East                                    Island West    █      "+
+            "\n         █                                      You are here ->  (X)      █      "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n        █                                                                 ██    "+
+            "\n       ██                                                                 █     "+
+            "\n       █                                                                ██      "+
+            "\n      ██                                                               ██       "+
+            "\n      █                                                              ███        "+
+            "\n      █                        Island South                        ███          "+
+            "\n      ██                                                         ███            "+
+            "\n       ██                             ██████                 ████               "+
+            "\n         ██                   █████████    ██████████████████                   "+
+            "\n           █████         ██████                                                 "+
+            "\n                █████████                                                       "+
+            "\n                                                                                ");
+        }
+
+        else if(currentLocation.name.equalsIgnoreCase("Island South"))
+        {
+            UI.print("\n                                                                                "+
+            "\n                                                                                "+
+            "\n                                                    ███████                     "+
+            "\n    ████            ███                        █████       ██                   "+
+            "\n    █  █ █       ████ ██                    ███             ██                  "+
+            "\n    █  █████  ███       ██               ████                ██                 "+
+            "\n    █      ███           ████████████████                     █                 "+
+            "\n    █                                                          █                "+
+            "\n    ██                     Island North                        █                "+
+            "\n     █                                                         █                "+
+            "\n     ██                                                         ██               "+
+            "\n      █                                                         ███             "+
+            "\n      ██                                                          ████          "+
+            "\n       ██                                                            ██         "+
+            "\n        █                                                             ██        "+
+            "\n        █                                                              ██       "+
+            "\n         █                                                              █       "+
+            "\n         █ Island East                                    Island West    █      "+
+            "\n         █                                                               █      "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n         █                                                                █     "+
+            "\n        █                                                                 ██    "+
+            "\n       ██                                                                 █     "+
+            "\n       █                                                                ██      "+
+            "\n      ██                                                               ██       "+
+            "\n      █                                                              ███        "+
+            "\n      █                  You are here ->  (X)                       ███        "+
+            "\n      █                        Island South                        ███          "+
+            "\n      ██                                                         ███            "+
+            "\n       ██                             ██████                 ████               "+
+            "\n         ██                   █████████    ██████████████████                   "+
+            "\n           █████         ██████                                                 "+
+            "\n                █████████                                                       "+
+            "\n                                                                                ");
+        }
+       
     }
 }
