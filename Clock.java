@@ -87,6 +87,16 @@ public void update(Message m) {
     {
         this.nextState();
         printStatus();
+        if(state.getClass().getSimpleName().equals("MorningState")){
+            time.set(0, 0, 0, 6, 0);
+        }
+        if(state.getClass().getSimpleName().equals("AfternoonState")){
+            time.set(0, 0, 0, 12, 0);
+        }
+        if(state.getClass().getSimpleName().equals("NightState")){
+            time.set(0, 0, 0, 19, 0);
+        }
+
     }
     
 }
@@ -102,6 +112,7 @@ public void previousState() {
 public void nextState() {
     // TODO Auto-generated method stub
     state.next(this);
+    
 }
 
 

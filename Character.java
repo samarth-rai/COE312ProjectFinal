@@ -12,6 +12,8 @@ public abstract class Character extends AbstractObserverSubject{
     ArrayList<Objects> inventory = new ArrayList<Objects>();
     Location currentLocation;// = new Location();
     String description;
+
+
     public Character(Subject[] subjects) {
         super(subjects);
     }
