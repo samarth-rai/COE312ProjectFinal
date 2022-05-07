@@ -47,22 +47,16 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
     Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
 
-    //Commands for control panel
-    CommandLook cLook = new CommandLook(player);
-    CommandInspect cInspect = new CommandInspect(player);
-    CommandAcquire cAcquire = new CommandAcquire(player);
-    CommandTakeItem cTakeItem = new CommandTakeItem(player);
-    CommandEat cEat = new CommandEat(player);
-    CommandInteract cInteract = new CommandInteract(player);
-    CommandBattle cBattle = new CommandBattle(player);
-    CommandTravel cTravel = new CommandTravel(player);
-    CommandInventory cInventory = new CommandInventory(player);
-    CommandHealth cHealth = new CommandHealth(player);
-
-    //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth}; // add more commands as needed
-    ControlPanel cp = new ControlPanel(cmds);
-
+    //Creating Tribals
+    Tribals tribal1 = new Tribals("Samarth",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
+    Tribals tribal2 = new Tribals("Danny",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal3 = new Tribals("Monish",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
+    Tribals tribal4 = new Tribals("Joel",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal5 = new Tribals("Roshini",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal6 = new Tribals("Maheen",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal7 = new Tribals("Rohit",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    
+    
     //Objects to be placed in locations
      Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris."); 
      Food apple1 = new Food(player, "Apple", "An apple.", 10, islandNorth);
@@ -74,6 +68,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Food apple7 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple8 = new Food(player, "Apple", "An apple.", 10, islandNorth);
      Food apple9 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+
 
      Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth, false);
         Objects Wood = new Objects("Wood", "A piece of palm wood");
@@ -284,6 +279,23 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         // rescued by cargo ship
     }
 
+    //Commands for control panel
+    CommandLook cLook = new CommandLook(player); //0
+    CommandInspect cInspect = new CommandInspect(player); //1
+    CommandAcquire cAcquire = new CommandAcquire(player);//2
+    CommandTakeItem cTakeItem = new CommandTakeItem(player);//3
+    CommandBattle cBattle = new CommandBattle(player);//4
+    CommandInteract cInteract = new CommandInteract(player);//5
+    CommandEat cEat = new CommandEat(player);//6
+    CommandTravel cTravel = new CommandTravel(player);//7
+    CommandInventory cInventory = new CommandInventory(player);//8
+    CommandHealth cHealth = new CommandHealth(player);//9
+    CommandMap cMap = new CommandMap(player);//10
+    Command cHelp = new CommandHelp(player);//11
+
+    //Control panel and command array
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cHelp}; // add more commands as needed
+    ControlPanel cp = new ControlPanel(cmds);
     @Override
     public void run() {
         intro();
@@ -327,8 +339,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "health":
                     cp.buttonWasPressed(9, input);
                     break;
+                case "map":
+                    cp.buttonWasPressed(10, input);
                 case "?": //case "help":
-                    //cp.buttonWasPressed(100,input);
+                    cp.buttonWasPressed(11,input);
                     break;
                 default:
                 UI.print("Invalid command!");

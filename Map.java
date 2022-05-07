@@ -12,7 +12,7 @@ public class Map {
     public void showmap(Location currentLocation){
         if(currentLocation.name.equalsIgnoreCase("Island North"))
         {
-            UI.print("\n                                                                                "+
+            UI.printNormal("\n                                                                                "+
             "\n                                                                                "+
             "\n                                                    ███████                     "+
             "\n    ████            ███                        █████       ██                   "+
@@ -49,7 +49,7 @@ public class Map {
         }
         else if(currentLocation.name.equalsIgnoreCase("Island East"))
         {
-            UI.print("\n                                                                                "+
+            UI.printNormal("\n                                                                                "+
             "\n                                                                                "+
             "\n                                                    ███████                     "+
             "\n    ████            ███                        █████       ██                   "+
@@ -87,7 +87,7 @@ public class Map {
 
         else if(currentLocation.name.equalsIgnoreCase("Island West"))
         {
-            UI.print("\n                                                                                "+
+            UI.printNormal("\n                                                                                "+
             "\n                                                                                "+
             "\n                                                    ███████                     "+
             "\n    ████            ███                        █████       ██                   "+
@@ -125,7 +125,7 @@ public class Map {
 
         else if(currentLocation.name.equalsIgnoreCase("Island South"))
         {
-            UI.print("\n                                                                                "+
+            UI.printNormal("\n                                                                                "+
             "\n                                                                                "+
             "\n                                                    ███████                     "+
             "\n    ████            ███                        █████       ██                   "+

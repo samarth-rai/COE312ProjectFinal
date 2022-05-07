@@ -8,10 +8,8 @@ public class CommandMap implements Command {
         this.p = pl;
     }
     public void execute(String input) {
-      
-        String[] inputs= input.split("eat ");
        try{
-        p.Map();
+        p.showmap(p.currentLocation);
        }
        catch(IndexOutOfBoundsException e)
        {

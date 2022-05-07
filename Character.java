@@ -24,6 +24,7 @@ public abstract class Character extends AbstractObserverSubject{
         this.health = this.fullHealth;
         this.inventorySize = inventorySize;
         this.description = description;
+        
     }
 
     public Character(Subject[] subjects, String name, Location spawnLocation, Integer health, Integer inventorySize) {
