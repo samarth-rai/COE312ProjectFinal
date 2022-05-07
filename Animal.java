@@ -78,10 +78,12 @@ public class Animal extends AbstractObserverSubject implements Runnable {
             location.currentlyPlacedObjects.add(dropObjects.get(i));
         }
     }
-    public void checkHealth(){
+    public boolean deadYet(){
         if(this.health<0){
             drop();
+            return true;
         }
+        else return false;
     }
 
 
@@ -89,7 +91,7 @@ public class Animal extends AbstractObserverSubject implements Runnable {
     public void run() {
        Random r = new Random();
        Integer x = r.nextInt(2);
-        while(type.equals("wild"))
+        while(type.equals("wild") && deadYet()==false)
         {
             switch(x)
             {

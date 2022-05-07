@@ -155,7 +155,8 @@ public class Player extends Character implements Runnable, Movable {
         "\neat <object>"+
         "\ntravel <location>"+
         "\ninventory"+
-        "\nhealth");
+        "\nhealth"+
+        "\nmap");
 
     }
 

@@ -6,11 +6,14 @@
 import java.util.GregorianCalendar;
 
 public class Clock extends AbstractObserverSubject implements Runnable, Context{
-GregorianCalendar time = new GregorianCalendar(2022, 5, 5, 16, 00); // starting the game on 5 may 2022, at 4pm
+GregorianCalendar time = new GregorianCalendar(2022, 5, 5, 6, 00); // starting the game on 5 may 2022, at 6am
 int minCount=0;
 Integer dayCount=0;
 Integer inGameHours=0;
 Integer inGameMinutes=0;
+//19-06 - night
+//06-12 - morning
+//12-19 - noon
 public Clock()
 {
     Thread t = new Thread(this);
@@ -31,7 +34,16 @@ public void run()
              //1 earth min = 3 hours 25 min and 42sec on day 0
             time.add(time.HOUR, 3);
             time.add(time.MINUTE, 25); //roll function increments the time by 1
-            time.add(time.SECOND, 42);    
+            time.add(time.SECOND, 42);  
+            if(time.HOUR>19 || time.HOUR<=6){
+                setState(new NightState());
+            }  
+            if(time.HOUR>6 || time.HOUR<=12){
+                setState(new MorningState());
+            }
+            if(time.HOUR>12 || time.HOUR<=19){
+                setState(new AfternoonState());
+            }
        }
        if(dayCount>0 && minCount==4){ //for the rest of the days: 5mins per day 
            minCount=0;
@@ -39,6 +51,15 @@ public void run()
            publishMessage(new Message(this, "day",dayCount.toString())); //publishes the day count after a new day aka if we start at 4pm, then it will say new day 24 hours later
            // after day 0: 1 earth min = 288 game min
             time.add(time.MINUTE, 288);
+            if(time.HOUR>19 || time.HOUR<=6){
+                setState(new NightState());
+            }  
+            if(time.HOUR>6 || time.HOUR<=12){
+                setState(new MorningState());
+            }
+            if(time.HOUR>12 || time.HOUR<=19){
+                setState(new AfternoonState());
+            }
        }
         publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "Sun Jun 05 16:01:00 GST 2022"
        try {
