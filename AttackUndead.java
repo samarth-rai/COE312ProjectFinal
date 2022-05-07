@@ -1,7 +1,7 @@
-public class UndeadAttack extends AttackType{
+public class AttackUndead extends AttackType{
 
 	
-    public UndeadAttack(Object s) {
+    public AttackUndead(Object s) {
         super(s);
     }
 

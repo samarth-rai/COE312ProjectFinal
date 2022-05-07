@@ -1,7 +1,7 @@
-public class ScratchAttack extends AttackType
+public class AttackScratch extends AttackType
 {
 
-	public ScratchAttack(Object s) {
+	public AttackScratch(Object s) {
 		super(s);
 		//TODO Auto-generated constructor stub
 	}

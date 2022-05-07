@@ -1,7 +1,7 @@
-public class NoAttack extends AttackType{
+public class AttackNone extends AttackType{
 
 
-    public NoAttack(Object s) {
+    public AttackNone(Object s) {
         super(s);
     }
 

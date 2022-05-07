@@ -3,7 +3,7 @@ public class Undead extends Character implements Context, Runnable{
     private State state = new DeadState();
 
 
-    AttackType aType = new NoAttack(this);
+    AttackType aType = new AttackNone(this);
 
     public Undead(Subject[] subjects) {
         super(subjects);
@@ -23,7 +23,7 @@ public class Undead extends Character implements Context, Runnable{
         else if(this.state.getClass().getSimpleName().equalsIgnoreCase("UndeadState"))
         {
             this.registerObserver(character);
-            aType = new UndeadAttack(this);
+            aType = new AttackUndead(this);
             Thread th = new Thread(this);
             th.start();
         }

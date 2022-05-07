@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Animal extends AbstractObserverSubject implements Runnable {
@@ -5,21 +6,23 @@ public class Animal extends AbstractObserverSubject implements Runnable {
     String color;
     String skinType; // skinType for example fur or wool
     String type;
+    Location location;
     Integer health = 30; //default health for all animals
     AttackType aType;
+    ArrayList<Objects> dropObjects = new ArrayList<Objects>();
     
     public void attack(Character character)
     {   
         this.registerObserver(character);
         if(type.equals("domestic"))
             {   
-                aType = new NoAttack(this);
+                aType = new AttackNone(this);
                 Thread th = new Thread(this);
                 th.start();
             }
         else
         {
-            aType = new ScratchAttack(this);
+            aType = new AttackScratch(this);
             Thread th = new Thread(this);
             th.start();
         }
@@ -35,10 +38,11 @@ public class Animal extends AbstractObserverSubject implements Runnable {
 
 
 
-    Animal(String AName, String Acolor, String AskinType, Integer health, String type) {
+    Animal(String AName, String Acolor, String AskinType, Location spawnLocation, Integer health, String type) {
         name = AName;
         color = Acolor;
         skinType = AskinType;
+        this.location=spawnLocation;
         this.health = health;
         this.type = type;
     }
@@ -59,11 +63,26 @@ public class Animal extends AbstractObserverSubject implements Runnable {
             case "attack":{
                 this.health -= Integer.parseInt(m.payload);
                 UI.print(this.name + "'s health has decreased by" + m.payload + "points." );
+                break;
             }
             
         }
     }
-
+     
+    public void drop(){
+        if(dropObjects.size()>0){
+            UI.print("Your action may have dropped some items!");
+        }
+        for(int i=0;i<dropObjects.size();i++)
+        {
+            location.currentlyPlacedObjects.add(dropObjects.get(i));
+        }
+    }
+    public void checkHealth(){
+        if(this.health<0){
+            drop();
+        }
+    }
 
 
     @Override
@@ -75,10 +94,10 @@ public class Animal extends AbstractObserverSubject implements Runnable {
             switch(x)
             {
                 case 0:
-                aType = new PounceAttack(this);
+                aType = new AttackPounce(this);
                 break;
                 case 1:
-                aType = new ScratchAttack(this);
+                aType = new AttackScratch(this);
                 break;
             }
 
@@ -88,6 +107,7 @@ public class Animal extends AbstractObserverSubject implements Runnable {
             } catch (InterruptedException e) {
                
             }
+            checkHealth();
         }
         
     }

@@ -1,7 +1,7 @@
-public class PounceAttack extends AttackType
+public class AttackPounce extends AttackType
 {
 
-	public PounceAttack(Object s) {
+	public AttackPounce(Object s) {
 		super(s);
 		//TODO Auto-generated constructor stub
 	}

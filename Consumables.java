@@ -20,6 +20,9 @@ public class Consumables extends Objects {
 
 	
 	public void consume(){
+        if(dropObjects.size()>0){
+            UI.print("Your action may have dropped some items!");
+        }
         for(int i=0;i<dropObjects.size();i++)
         {
             currentLocation.currentlyPlacedObjects.add(dropObjects.get(i));

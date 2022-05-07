@@ -1,9 +1,9 @@
-public class SwordAttack extends AttackType{
+public class AttackSword extends AttackType{
 
 	
 
 
-	public SwordAttack(Object s) {
+	public AttackSword(Object s) {
 		super(s);
 	}
 

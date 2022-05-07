@@ -102,6 +102,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             Message m = new Message(this, "objective", "fightWolf");
             publishMessage(m);
             Animal wolf1 = new Animal("Wolf", "white", "fur", "wild");
+            
             islandEast.currentlyPlacedAnimals.add(wolf1);
            
             UI.printNormal("\n"
@@ -147,8 +148,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
-
-
         //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(apple1);
@@ -157,7 +156,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         L1();
     }
 
-    public   void L1() {
+    public void L1() {
         
         
 
@@ -341,6 +340,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                     break;
                 case "map":
                     cp.buttonWasPressed(10, input);
+                    break;
                 case "?": //case "help":
                     cp.buttonWasPressed(11,input);
                     break;
