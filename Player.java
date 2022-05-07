@@ -165,6 +165,8 @@ public class Player extends Character implements Runnable, Movable {
         {
             if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
             {
+               UI.print("before tcp client");
+               TCP_Client t = new TCP_Client("192.168.0.195",52855,0);
                Consumables f = (Consumables) currentLocation.currentlyPlacedObjects.get(i);
                f.consume();
                return;

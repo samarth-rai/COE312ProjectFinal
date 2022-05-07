@@ -148,7 +148,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
-        UI.print(introduction);
+        //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(apple1);
         Tree.dropObjects.add(Wood);

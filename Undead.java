@@ -57,6 +57,7 @@ public class Undead extends Character implements Context, Runnable{
     public void run() {
         while(health>0)
         {
+            //
             aType.Attack();
             try {
                 Thread.sleep(2000);

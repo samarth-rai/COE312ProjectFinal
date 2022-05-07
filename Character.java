@@ -111,6 +111,10 @@ public abstract class Character extends AbstractObserverSubject{
                 Food f = (Food)m.origin;
                 UI.print(this.name + " ate a(n) " + f.name + ".\nHealth increased by " + m.payload + " points." );
             }
+            if(m.topic.equals("chop tree")){
+                Double netAcc = Double.parseDouble(m.payload);
+                
+            }
             
         }
     }
