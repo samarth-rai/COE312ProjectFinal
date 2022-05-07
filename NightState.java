@@ -15,7 +15,7 @@ public class NightState implements State {
 
     @Override
     public void printStatus(Context context) {
-        
+        UI.print("It is now the night!");
         
     }
     

@@ -16,7 +16,7 @@ public class MorningState implements State{
 
     @Override
     public void printStatus(Context context) {
-      
+      UI.print("It is now the morning!");
         
     }
 

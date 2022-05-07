@@ -6,14 +6,7 @@ public class CommandTakeItem implements Command {
         this.p = pl;
     }
     public void execute(String x) {
-        switch(x){
-            case "fox":
-             //p.takeItem(x);
-             break;
-
-            default:
-            UI.print("Unknown command");
-        }
+        p.takeItem(x);
     }
     public void undo() {
         UI.print("This cannot be undone");

@@ -36,7 +36,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     //Mandatory Instances
     Character[] characterList;
     Objectives objectives = new Objectives();
-    Clock clock = new Clock();
+    Clock clock = Clock.getInstance();
     Map map = new Map();
     
     //Variables that store gamedata.
@@ -46,6 +46,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     //Auxilary Variables
     Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
     Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
+    
 
     //Creating Tribals
     Tribals tribal1 = new Tribals("Samarth",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
@@ -140,7 +141,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     
     
     public void intro() {
-        
+        clock.registerObserver(player);
+        player.registerObserver(clock);
+
         //register all observers that couldn't be done before due to circular dependence.
         player.registerObserver(islandEast);
         player.registerObserver(islandNorth);
@@ -155,6 +158,15 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         islandNorth.currentlyPlacedObjects.add(Tree);
         L1();
     }
+    Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
+    Objects idCard = new Objects(stdSubjects, "IDCard",
+            "A pilot license that belongs to vikram kumar");
+    Objects wallet = new Objects(stdSubjects, "Wallet",
+            "A wallet that belongs to vikram kumar, unfortunately the money in it is useless here.");
+    Objects watch = new Objects(stdSubjects, "Watch",
+            "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash");
+    Objects goldBracelet = new Objects(stdSubjects, "Bracelet",
+            "An expensive gold bracelet, may or may not come in handy later");
 
     public void L1() {
         
@@ -172,21 +184,12 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
       
         // Create Undead Pilot
-        Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
-        Objects idCard = new Objects(stdSubjects, "Vikram Kumar's ID Card",
-                "A pilot license that belongs to vikram kumar");
-        Objects wallet = new Objects(stdSubjects, "Vikram Kumar's Wallet",
-                "A wallet that belongs to vikram kumar, unfortunately the money in it is useless here.");
-        Objects watch = new Objects(stdSubjects, "Casio Wristwatch",
-                "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash");
-        Objects goldBracelet = new Objects(stdSubjects, "Gold Bracelet",
-                "An expensive gold bracelet, may or may not come in handy later");
-
+        
         FedExPilot.inventory.add(idCard);
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        FedExPilot.nextState();
+        //FedExPilot.nextState();
        
 
         // SAMARTH
@@ -290,10 +293,12 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandInventory cInventory = new CommandInventory(player);//8
     CommandHealth cHealth = new CommandHealth(player);//9
     CommandMap cMap = new CommandMap(player);//10
-    CommandHelp cHelp = new CommandHelp(player);//11
+    CommandSleep cSleep = new CommandSleep(player);//11
+    CommandTime cTime = new CommandTime(player); //12
+    CommandHelp cHelp = new CommandHelp(player);//13
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cHelp}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cSleep, cTime, cHelp}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
     @Override
     public void run() {
@@ -301,7 +306,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         String input;
         String[] commands;
         while (true) {
-
+            if(player.inventory.contains(watch) && Objectives.foundWatch==false){
+                publishMessage(new Message(this, "Objective", "foundWatch")); //message intended for Objectives class
+            }
             launchWolf(); //Second objective to clear in the game.
             UI.printnln("command > ");
             input = UI.read();
@@ -341,9 +348,16 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "map":
                     cp.buttonWasPressed(10, input);
                     break;
-                case "?": //case "help":
-                    cp.buttonWasPressed(11,input);
+                case "sleep":
+                    cp.buttonWasPressed(11, input);
                     break;
+                case "time":
+                    cp.buttonWasPressed(12, input);
+                    break;
+                case "?": //case "help":
+                    cp.buttonWasPressed(13,input);
+                    break;
+                
                 default:
                 UI.print("Invalid command!");
             }

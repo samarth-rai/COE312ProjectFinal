@@ -26,7 +26,12 @@ public class Player extends Character implements Runnable, Movable {
 
     ViewTimeBehavior vt = new ViewTimeNoWatch(); //player starts off with viewing time without watch - Strategy Pattern
     public void performViewTime(){
-        vt.ViewTime();
+            if(Objectives.foundWatch==true){
+                vt = new ViewTimeWatch();
+            }
+            //else vt = new ViewTimeNoWatch();
+            vt.ViewTime();
+     
     }
 
     public void setViewTimeBehavior(ViewTimeBehavior fb) { //use this to change the viewtime functionality when the watch is discovered just call setViewTimeBehavior(new ViewTimeWatch())  
@@ -166,7 +171,7 @@ public class Player extends Character implements Runnable, Movable {
             if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
             {
                UI.print("before tcp client");
-               TCP_Client t = new TCP_Client("192.168.0.195",52855,0);
+               //TCP_Client t = new TCP_Client("192.168.0.195",52855,0);
                Consumables f = (Consumables) currentLocation.currentlyPlacedObjects.get(i);
                f.consume();
                return;
@@ -204,6 +209,8 @@ public class Player extends Character implements Runnable, Movable {
                 {
                     inventory.add(o);
                     currentLocation.currentlyPlacedObjects.remove(o);
+                    
+
                 }
                 else
                 {
@@ -242,12 +249,41 @@ public class Player extends Character implements Runnable, Movable {
         }
    }
 
-   public void takeItem(String s)
+   public void takeItem(String s) //syntax: take watch from vikram kumar
    {
        String[] commands = s.split(" ");
-        
-
+       String ObjName = commands[1];
+       String CharName = commands[3];
+       for(int i=4; i<commands.length; i++){
+           CharName += " " +commands[i] ;
+       }
+       
+       ObjName=ObjName.toLowerCase();
+       CharName=CharName.toLowerCase();
+       for(int i=0; i<currentLocation.currentlyPlacedCharacters.size(); i++){
+            if(CharName.equals(currentLocation.currentlyPlacedCharacters.get(i).name.toLowerCase())){
+               
+                Character x=currentLocation.currentlyPlacedCharacters.get(i);
+                if(x.health==0){
+                    for(int j=0; j<x.inventory.size(); j++){
+                       
+                        if(ObjName.equals(x.inventory.get(j).name.toLowerCase())){
+                            inventory.add(x.inventory.get(j)); // add to our inventory
+                            UI.print(x.inventory.get(j).name + " was added to your inventory.");
+                            x.inventory.remove(x.inventory.get(j)); //remove from their inventory
+                        }
+                        
+                    }
+                }
+                else UI.print("You need to fight" + x.name + "to take from them");
+            }
+            
+        }
+       
    }
+   
+
+   
    public void showmap(Location currentLocation){
     if(currentLocation.name.equalsIgnoreCase("Island North"))
     {
@@ -409,6 +445,7 @@ public class Player extends Character implements Runnable, Movable {
         while(true)
         {
             this.checkHealth();
+            
         }
     }
 

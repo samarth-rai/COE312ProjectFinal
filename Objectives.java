@@ -7,6 +7,7 @@ public class Objectives extends AbstractObserver{
 public static Boolean foundAxe = false;
 public static Boolean discoverVikram = false;
 public static Boolean fightWolf = false;
+public static Boolean foundWatch = false;
 
 @Override
 public void update(Message m) {
@@ -23,7 +24,9 @@ public void update(Message m) {
             case "fightWolf":
                 fightWolf=true;
                 break;
-
+            case "foundWatch":
+                foundWatch=true;
+                break;
         }
    } 
 }

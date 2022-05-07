@@ -1,5 +1,6 @@
 public class ViewTimeWatch extends ViewTimeBehavior {
+    Clock c = Clock.getInstance();
     public void ViewTime(){
-        UI.print("this is time with watch");
+        UI.print(c.returnTime());
     }
 }

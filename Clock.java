@@ -3,6 +3,7 @@
 //TODO - add in-game minutes and hours (inGameMin, inGameHours) 
 //IMPORTANT - PLEASE USE ABOVE MENTIONED VARIABLE NAMES AS THEY ARE USED ELSEWHERE IN THE GAME
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Clock extends AbstractObserverSubject implements Runnable, Context{
@@ -11,78 +12,81 @@ int minCount=0;
 Integer dayCount=0;
 Integer inGameHours=0;
 Integer inGameMinutes=0;
+
+private static Clock instance;
+
+
 //19-06 - night
 //06-12 - morning
 //12-19 - noon
-public Clock()
+private Clock()
 {
     Thread t = new Thread(this);
     t.start();
 }
 
+public static synchronized Clock getInstance(){
+    if(instance == null){
+        instance = new Clock();
+    }
+    return instance;
+}
+
+public String returnTime(){
+    String[] splitted= time.getTime().toString().split(" ");
+    String x = splitted[3];
+    return x;
+}
 State state = new MorningState();
 
 @Override
 public void run()
 {
    while (true){
-      
-       if(dayCount==0 && minCount==6){ //for day 0: it is 7 mins long
-            minCount=0; //reset min counter
-            dayCount++;
-            publishMessage(new Message(this, "day",dayCount.toString()));
-             //1 earth min = 3 hours 25 min and 42sec on day 0
-            time.add(time.HOUR, 3);
-            time.add(time.MINUTE, 25); //roll function increments the time by 1
-            time.add(time.SECOND, 42);  
-            if(time.HOUR>19 || time.HOUR<=6){
-                setState(new NightState());
-            }  
-            if(time.HOUR>6 || time.HOUR<=12){
-                setState(new MorningState());
-            }
-            if(time.HOUR>12 || time.HOUR<=19){
-                setState(new AfternoonState());
-            }
-       }
-       if(dayCount>0 && minCount==4){ //for the rest of the days: 5mins per day 
-           minCount=0;
-           dayCount++;
-           publishMessage(new Message(this, "day",dayCount.toString())); //publishes the day count after a new day aka if we start at 4pm, then it will say new day 24 hours later
-           // after day 0: 1 earth min = 288 game min
-            time.add(time.MINUTE, 288);
-            if(time.HOUR>19 || time.HOUR<=6){
-                setState(new NightState());
-            }  
-            if(time.HOUR>6 || time.HOUR<=12){
-                setState(new MorningState());
-            }
-            if(time.HOUR>12 || time.HOUR<=19){
-                setState(new AfternoonState());
-            }
-       }
-        publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "Sun Jun 05 16:01:00 GST 2022"
-       try {
+    try {
         Thread.sleep(60000);
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
+        if(dayCount==0 && minCount<7){ 
+            minCount++;
+            time.add(Calendar.HOUR, 3);
+            time.add(time.MINUTE, 25); //roll function increments the time by 1
+            time.add(time.SECOND, 42); 
+            if(minCount==7){
+                minCount=0;
+                dayCount++;
+            } 
+        }
 
-    minCount++;
+        if(dayCount>0 && minCount<5){
+            minCount++;
+            time.add(time.MINUTE, 288);
+            if(minCount==5) {
+                minCount=0;
+                dayCount++;
+            }
+        }
+        if(time.HOUR>19 || time.HOUR<=6){
+            setState(new NightState());
+        }  
+        if(time.HOUR>6 || time.HOUR<=12){
+            setState(new MorningState());
+        }
+        if(time.HOUR>12 || time.HOUR<=19){
+            setState(new AfternoonState());
+        }
+        publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "Sun Jun 05 16:01:00 GST 2022"
    } 
 }
 
 
 @Override
 public void update(Message m) {
-
     if(m.topic=="sleep")
     {
         this.nextState();
-        if(this.state.getClass().getSimpleName().equals("MorningState"))
-        {
-            
-        }
+        printStatus();
     }
     
 }
@@ -90,28 +94,28 @@ public void update(Message m) {
 
 @Override
 public void previousState() {
-    
+    state.prev(this);
 }
 
 
 @Override
 public void nextState() {
     // TODO Auto-generated method stub
-    
+    state.next(this);
 }
 
 
 @Override
 public void printStatus() {
     // TODO Auto-generated method stub
-    
+    state.printStatus(this);
 }
 
 
 @Override
 public void setState(State state) {
-    // TODO Auto-generated method stub
     
+    this.state = state;
 }
 
 
