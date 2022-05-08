@@ -79,6 +79,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     Tribals tribal7 = new Tribals("Pskh",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     
     
+
     //Objects to be placed in locations
      Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris. A good weapon to have."); 
      Objects stones = new Objects("Stones", "A Flint Stone. Looks like it can be used to start a fire...");
@@ -91,6 +92,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Food apple7 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
      Food apple8 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
      Food apple9 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
+
+    //making FedEx Packages
+    Objects wilson = new Objects("Wilson", "A tennis ball made by Wilson Sporting Goods Company.");
+    Objects lvbag = new Objects("Bag", "A Louis Vitton Bag with space to hold many items.");
 
 
     Consumables Tree = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
@@ -174,9 +179,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
         FedExPilot.nextState();
-        
 
-        
         L1();
     }
     
