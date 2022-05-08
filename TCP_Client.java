@@ -18,7 +18,6 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 			Thread t = new Thread(this);
 			t.start();
 	}
-		
 		JSONParser parser = new JSONParser();
 		public void run() {
 			try {
@@ -44,12 +43,11 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
                     UI.print("Attack by blowing on your phone!");
 	                JSONObject jsonObject = (JSONObject) parser.parse(line);
 					
-                   // publishMessage(new Message(this,"chop tree",netAcc.toString()));
+                   // publishMessage(new Message(this,"blow",netAcc.toString()));
 					Thread.sleep(1000);
 					count++;
 				} 
 	//----------------------------------------------------------------------------
-
 			} catch (UnknownHostException ex) {
 				System.out.println("Server not found: " + ex.getMessage());
 			} catch (IOException ex) {
