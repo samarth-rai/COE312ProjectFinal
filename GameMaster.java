@@ -7,7 +7,7 @@ import java.util.Scanner;
 //Controls the gameplay behavior of the class
 //Runnable as this thread will control the game progression
 public class GameMaster extends AbstractObserverSubject implements Runnable {
-    TCP_Client t = new TCP_Client("192.168.0.195", 52855, 0);
+    static TCP_Client t = new TCP_Client("192.168.1.103", 2000);
     private static GameMaster instance;
 
     private GameMaster(String config, String log) {
@@ -94,13 +94,41 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
      Food apple9 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
 
     //making FedEx Packages
-    Objects wilson = new Objects("Wilson", "A tennis ball made by Wilson Sporting Goods Company.");
-    Objects lvbag = new Objects("Bag", "A Louis Vitton Bag with space to hold many items.");
 
+    Consumables box1 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandSouth, false);
+    Consumables box2 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandWest, false);
+    Consumables box3 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandWest, false);
+    Objects wilson = new Objects("Wilson", "A tennis ball made by Wilson Sporting Goods Company. A washed up FedEx Package found on the island.");
+    Objects lvbag = new Objects("Bag", "A Louis Vitton Bag with space to hold many items. A washed up FedEx Package found on the island.");
+    Objects SwissKnife = new Objects("Knife", "A Swiss Army Knife, can be used as a weapon. A washed up FedEx Package found on the island.");
+    Consumables Tree1 = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
+    Objects Wood1 = new Objects("Wood", "A piece of palm wood");
+    Objects Leaves1 = new Objects("Leaves", "Leaves of palm tree");
+    Consumables Tree2 = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
+    Objects Wood2 = new Objects("Wood", "A piece of palm wood");
+    Objects Leaves2 = new Objects("Leaves", "Leaves of palm tree");
 
-    Consumables Tree = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
-    Objects Wood = new Objects("Wood", "A piece of palm wood");
-    Objects Leaves = new Objects("Leaves", "Leaves of palm tree");
+    Consumables Tree3 = new Consumables("Tree", "A beautiful oak tree. Can be cut to gather resources.", islandSouth, false);
+    Objects Wood3 = new Objects("Wood", "A piece of oak wood");
+    Objects Leaves3 = new Objects("Leaves", "Leaves of oak tree");
+    Consumables Tree4 = new Consumables("Tree", "A beautiful oak tree. Can be cut to gather resources.", islandSouth, false);
+    Objects Wood4 = new Objects("Wood", "A piece of oak wood");
+    Objects Leaves4 = new Objects("Leaves", "Leaves of oak tree");
+
+    Consumables Tree5 = new Consumables("Tree", "A beautiful birch tree. Can be cut to gather resources.", islandWest, false);
+    Objects Wood5 = new Objects("Wood", "A piece of birch wood");
+    Objects Leaves5 = new Objects("Leaves", "Leaves of birch tree");
+    Consumables Tree6 = new Consumables("Tree", "A beautiful birch tree. Can be cut to gather resources.", islandWest, false);
+    Objects Wood6 = new Objects("Wood", "A piece of birch wood");
+    Objects Leaves6 = new Objects("Leaves", "Leaves of birch tree");
+
+    Consumables Tree7 = new Consumables("Tree", "A beautiful acacia tree. Can be cut to gather resources.", islandEast, false);
+    Objects Wood7 = new Objects("Wood", "A piece of acacia wood");
+    Objects Leaves7 = new Objects("Leaves", "Leaves of acacia tree");
+    Consumables Tree8 = new Consumables("Tree", "A beautiful acacia tree. Can be cut to gather resources.", islandEast, false);
+    Objects Wood8 = new Objects("Wood", "A piece of acacia wood");
+    Objects Leaves8 = new Objects("Leaves", "Leaves of acacia tree");
+
 
       public static Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
@@ -170,9 +198,41 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
        //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(stones);
-        Tree.dropObjects.add(Wood);
-        Tree.dropObjects.add(Leaves);
-        islandNorth.currentlyPlacedObjects.add(Tree);
+        
+        islandSouth.currentlyPlacedObjects.add(box1);
+        islandWest.currentlyPlacedObjects.add(box2);
+        islandWest.currentlyPlacedObjects.add(box3);
+        box1.dropObjects.add(SwissKnife);
+        box2.dropObjects.add(wilson);
+        box3.dropObjects.add(lvbag);
+
+        Tree1.dropObjects.add(Wood1);
+        Tree1.dropObjects.add(Leaves1);
+        islandNorth.currentlyPlacedObjects.add(Tree1);
+        Tree2.dropObjects.add(Wood2);
+        Tree2.dropObjects.add(Leaves2);
+        islandNorth.currentlyPlacedObjects.add(Tree2);
+
+        Tree3.dropObjects.add(Wood3);
+        Tree3.dropObjects.add(Leaves3);
+        islandSouth.currentlyPlacedObjects.add(Tree3);
+        Tree4.dropObjects.add(Wood4);
+        Tree4.dropObjects.add(Leaves4);
+        islandSouth.currentlyPlacedObjects.add(Tree4);
+
+        Tree5.dropObjects.add(Wood5);
+        Tree5.dropObjects.add(Leaves5);
+        islandWest.currentlyPlacedObjects.add(Tree5);
+        Tree6.dropObjects.add(Wood6);
+        Tree6.dropObjects.add(Leaves6);
+        islandWest.currentlyPlacedObjects.add(Tree6);
+
+        Tree7.dropObjects.add(Wood7);
+        Tree7.dropObjects.add(Leaves7);
+        islandEast.currentlyPlacedObjects.add(Tree7);
+        Tree8.dropObjects.add(Wood8);
+        Tree8.dropObjects.add(Leaves8);
+        islandEast.currentlyPlacedObjects.add(Tree8);
 
         FedExPilot.inventory.add(idCard);
         FedExPilot.inventory.add(wallet);
@@ -185,6 +245,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     
 
     public void L1() {
+
+        // we go to l2 if( builthouse, ==true)
         // DONE - Notification(from location): New Location Unlocked
 
         // Time: Day night cycle based on time - SAAD
@@ -232,8 +294,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         // ROSHNI
 
         // If time is past 5:00 and player has an axe, create a wolf at islandEast.
-        
-        
 
         // Two classes attack types extend AttackType-> instances in animal-> DONE
         // scratch attack & pounce attack -> DONE
@@ -312,6 +372,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             if(player.inventory.contains(watch) && Objectives.foundWatch==false){
                 publishMessage(new Message(this, "Objective", "foundWatch")); //message intended for Objectives class
             }
+            if(player.inventory.contains(lvbag) && Objectives.foundLVBag==false){
+                publishMessage(new Message(this, "Objective", "foundLVBag")); //message intended for Objectives class
+            }
             launchWolf(); //Second objective to clear in the game.
             UI.printnln("command > ");
             input = UI.read();
@@ -333,6 +396,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                     cp.buttonWasPressed(4, input);
                     break;
                 case "chop":                    
+                    cp.buttonWasPressed(5, input);
+                    break;
+                case "open":                    
                     cp.buttonWasPressed(5, input);
                     break;
                 case "eat":
