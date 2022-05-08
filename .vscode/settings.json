@@ -2,6 +2,7 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "json-simple-1.1.jar",
-        "/Users/ahmedsaad/Documents/Java Projects/json-simple-1.1.jar"
+        "/Users/ahmedsaad/Documents/Java Projects/json-simple-1.1.jar",
+        "/home/samarth/Desktop/json-simple-1.1.jar"
     ]
 }
