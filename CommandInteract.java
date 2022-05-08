@@ -7,7 +7,7 @@ public class CommandInteract implements Command{
         this.p = pl;
     }
     public void execute(String input) {
-        String[] inputs= input.split("the ");
+        String[] inputs= input.split(" ");
         try{
             p.interact(inputs[1]);
            }

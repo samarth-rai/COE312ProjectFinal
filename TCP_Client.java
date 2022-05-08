@@ -35,7 +35,7 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
                     String AccY = (String) jsonObject.get("accelerometerAccelerationY");
                     String AccZ = (String) jsonObject.get("accelerometerAccelerationZ");
 					Double netAcc = Math.pow(Math.pow(Float.parseFloat(AccX),2) + Math.pow(Float.parseFloat(AccY),2)+ Math.pow(Float.parseFloat(AccZ),2),1/2); //making the application non-trivial
-                    
+                    UI.print(netAcc.toString());
                     publishMessage(new Message(this,"chop tree",netAcc.toString()));
 					Thread.sleep(1000);
 					count++;

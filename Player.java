@@ -48,13 +48,15 @@ public class Player extends Character implements Runnable, Movable {
 
     }
 
-   public void checkHealth()
+   public synchronized void checkHealth()
    {
+       
+    
        if (this.health <= 30)
        {
            UI.print("Your health is reducing, please increase it by eating or sleeping");
        }
-       if(this.health == 0)
+       if(this.health <= 0)
        {
            UI.print("You died!\n GAME OVER");
            System.exit(0);
@@ -63,6 +65,7 @@ public class Player extends Character implements Runnable, Movable {
        if(this.health>fullHealth)
        {
            this.health=fullHealth;//Normalizes health;
+           
        }
    }
 
@@ -170,7 +173,7 @@ public class Player extends Character implements Runnable, Movable {
         {
             if(currentLocation.currentlyPlacedObjects.get(i).name.equalsIgnoreCase(object))
             {
-               UI.print("before tcp client");
+               //UI.print("before tcp client");
                //TCP_Client t = new TCP_Client("192.168.0.195",52855,0);
                Consumables f = (Consumables) currentLocation.currentlyPlacedObjects.get(i);
                f.consume();
@@ -488,7 +491,12 @@ public class Player extends Character implements Runnable, Movable {
         while(true)
         {
             this.checkHealth();
-            
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 

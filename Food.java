@@ -11,7 +11,7 @@ public class Food extends Consumables{
     @Override
     public void consume()
     {
-        Message m = new Message(this,"food","40");
+        Message m = new Message(this,"food",energy.toString());
         publishMessage(m);
         currentLocation.currentlyPlacedObjects.remove(this);
     }

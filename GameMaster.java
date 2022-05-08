@@ -7,7 +7,7 @@ import java.util.Scanner;
 //Controls the gameplay behavior of the class
 //Runnable as this thread will control the game progression
 public class GameMaster extends AbstractObserverSubject implements Runnable {
-
+    TCP_Client t = new TCP_Client("192.168.0.195", 52855, 0);
     private static GameMaster instance;
 
     private GameMaster(String config, String log) {
@@ -151,6 +151,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     }
     
     public void intro() {
+
         clock.registerObserver(player);
         player.registerObserver(clock);
 
@@ -161,7 +162,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
-       // UI.print(introduction);
+       //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(stones);
         Tree.dropObjects.add(Wood);
@@ -172,8 +173,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        //FedExPilot.nextState();
-
+        FedExPilot.nextState();
+        
 
         
         L1();
@@ -181,9 +182,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     
 
     public void L1() {
-        
-        
-
         // DONE - Notification(from location): New Location Unlocked
 
         // Time: Day night cycle based on time - SAAD
@@ -193,11 +191,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         // Day 1 longer - Day counter, when daycount == 0 sleep(longertime) --- done
 
         // COME BACK TO THIS // Disable functions at night unless there is some object
-
-      
-        
-       
-
         // SAMARTH
 
         // Undead has method called activate -> dead -> undead state
@@ -336,7 +329,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "battle":
                     cp.buttonWasPressed(4, input);
                     break;
-                case "cut":
                 case "chop":                    
                     cp.buttonWasPressed(5, input);
                     break;
@@ -367,7 +359,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "?": //case "help":
                     cp.buttonWasPressed(14,input);
                     break;
-                
                 default:
                 UI.print("Invalid command!");
             }
