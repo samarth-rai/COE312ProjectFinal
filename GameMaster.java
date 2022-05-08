@@ -10,6 +10,19 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     private static GameMaster instance;
 
+    private GameMaster(String config, String log) {
+        Thread th = new Thread(this);
+        th.start();
+    }
+
+    public synchronized static GameMaster getInstance(String config, String log) {
+        if (instance == null) {
+            instance = new GameMaster(config, log);
+        }
+        return instance;
+    }
+    FileInputStream configFile;
+    FileInputStream logFile;
 
     public String introduction = "In 1995, Chuck Noland, a systems analyst executive," +
             "travels the world resolving productivity problems at FedEx depots. " +
@@ -22,8 +35,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             "escapes with an inflatable life raft. The next day+," +
             "he washes up on an uninhabited island.\n\nNow you, Chuck Noland, must survive.";
             
-    FileInputStream configFile;
-    FileInputStream logFile;
+    
    
     // Creating all locations
     static IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
@@ -42,37 +54,48 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     //Variables that store gamedata.
     ArrayList<Boolean> VisitedLocations = new ArrayList<Boolean>();
    
-
     //Auxilary Variables
     Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
     Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
     
+    //making Vikram Kumar and his items
+    Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
+    Objects idCard = new Objects(stdSubjects, "IDCard",
+            "A pilot license that belongs to vikram kumar");
+    Objects wallet = new Objects(stdSubjects, "Wallet",
+            "A wallet that belongs to vikram kumar, unfortunately the money in it is useless here.");
+    Objects watch = new Objects(stdSubjects, "Watch",
+            "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash");
+    Objects goldBracelet = new Objects(stdSubjects, "Bracelet",
+            "An expensive gold bracelet, may or may not come in handy later");
 
     //Creating Tribals
-    Tribals tribal1 = new Tribals("Samarth",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
-    Tribals tribal2 = new Tribals("Danny",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal3 = new Tribals("Monish",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
-    Tribals tribal4 = new Tribals("Joel",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal5 = new Tribals("Roshini",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal6 = new Tribals("Maheen",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal7 = new Tribals("Rohit",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal1 = new Tribals("Olskfghj",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
+    Tribals tribal2 = new Tribals("Glksjdfh",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal3 = new Tribals("Pslkkjh",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
+    Tribals tribal4 = new Tribals("Qxkdjfh",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal5 = new Tribals("Csdjfh",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal6 = new Tribals("Lsjdhfg",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal7 = new Tribals("Pskh",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     
     
     //Objects to be placed in locations
-     Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris."); 
-     Food apple1 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple2 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple3 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple4 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple5 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple6 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple7 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple8 = new Food(player, "Apple", "An apple.", 10, islandNorth);
-     Food apple9 = new Food(player, "Apple", "An apple.", 10, islandNorth);
+     Objects axe = new Objects("Axe", "An emergency glass breaking axe from the plane's debris. A good weapon to have."); 
+     Objects stones = new Objects("Stones", "A Flint Stone. Looks like it can be used to start a fire...");
+     Food apple1 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandNorth);
+     Food apple2 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandNorth);
+     Food apple3 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandSouth);
+     Food apple4 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandSouth);
+     Food apple5 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandEast);
+     Food apple6 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandEast);
+     Food apple7 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
+     Food apple8 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
+     Food apple9 = new Food(player, "Apple", "An apple. Gives 10 HP upon eating.", 10, islandWest);
 
 
-     Consumables Tree = new Consumables("Tree", "A beautiful palm tree", islandNorth, false);
-        Objects Wood = new Objects("Wood", "A piece of palm wood");
+    Consumables Tree = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
+    Objects Wood = new Objects("Wood", "A piece of palm wood");
+    Objects Leaves = new Objects("Leaves", "Leaves of palm tree");
 
       public static Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
@@ -80,22 +103,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 return loc;
         }
         throw new NoSuchObjectException(l);
-    }
-
-    private GameMaster(String config, String log) {
-        Thread th = new Thread(this);
-        th.start();
-    }
-
-    public synchronized static GameMaster getInstance(String config, String log) {
-        if (instance == null) {
-            instance = new GameMaster(config, log);
         }
-        return instance;
-    }
 
-    
-    //Objective Mission Functions
+        
+
+     //Objective Mission Functions
 
     public void launchWolf()
     {
@@ -138,8 +150,6 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         }
     }
     
-    
-    
     public void intro() {
         clock.registerObserver(player);
         player.registerObserver(clock);
@@ -151,22 +161,24 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
 
-        //UI.print(introduction);
+       // UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
-        islandNorth.currentlyPlacedObjects.add(apple1);
+        islandNorth.currentlyPlacedObjects.add(stones);
         Tree.dropObjects.add(Wood);
+        Tree.dropObjects.add(Leaves);
         islandNorth.currentlyPlacedObjects.add(Tree);
+
+        FedExPilot.inventory.add(idCard);
+        FedExPilot.inventory.add(wallet);
+        FedExPilot.inventory.add(watch);
+        FedExPilot.inventory.add(goldBracelet);
+        //FedExPilot.nextState();
+
+
+        
         L1();
     }
-    Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
-    Objects idCard = new Objects(stdSubjects, "IDCard",
-            "A pilot license that belongs to vikram kumar");
-    Objects wallet = new Objects(stdSubjects, "Wallet",
-            "A wallet that belongs to vikram kumar, unfortunately the money in it is useless here.");
-    Objects watch = new Objects(stdSubjects, "Watch",
-            "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash");
-    Objects goldBracelet = new Objects(stdSubjects, "Bracelet",
-            "An expensive gold bracelet, may or may not come in handy later");
+    
 
     public void L1() {
         
@@ -183,13 +195,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         // COME BACK TO THIS // Disable functions at night unless there is some object
 
       
-        // Create Undead Pilot
         
-        FedExPilot.inventory.add(idCard);
-        FedExPilot.inventory.add(wallet);
-        FedExPilot.inventory.add(watch);
-        FedExPilot.inventory.add(goldBracelet);
-        //FedExPilot.nextState();
        
 
         // SAMARTH
@@ -295,10 +301,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandMap cMap = new CommandMap(player);//10
     CommandSleep cSleep = new CommandSleep(player);//11
     CommandTime cTime = new CommandTime(player); //12
-    CommandHelp cHelp = new CommandHelp(player);//13
+    CommandMake cMake = new CommandMake(player);//13
+    CommandHelp cHelp = new CommandHelp(player);//14
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cSleep, cTime, cHelp}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cSleep, cTime, cMake, cHelp}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
     @Override
     public void run() {
@@ -354,8 +361,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "time":
                     cp.buttonWasPressed(12, input);
                     break;
+                case "make":
+                    cp.buttonWasPressed(13, input);
+                    break;
                 case "?": //case "help":
-                    cp.buttonWasPressed(13,input);
+                    cp.buttonWasPressed(14,input);
                     break;
                 
                 default:

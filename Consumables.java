@@ -11,6 +11,7 @@ public class Consumables extends Objects {
     public Consumables(String name, String description,Location spawnLocation) {
 		super(name,description);
         currentLocation = spawnLocation;
+        spawnLocation.currentlyPlacedObjects.add(this);
 	}
 
     public Consumables(String name, String description,Location spawnLocation, Boolean canCarry) {

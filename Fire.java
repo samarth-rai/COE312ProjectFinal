@@ -1,8 +1,6 @@
 public class Fire extends Craftable
 {
-    public boolean PlayerUsingStones(){
-        return true;
-    }
+    
 	@Override
 	void RubbingStones() {
 		// TODO Auto-generated method stub
@@ -13,6 +11,12 @@ public class Fire extends Craftable
 	void Completed() {
 		// TODO Auto-generated method stub
 		UI.print("Fire is made!");
+	}
+
+	@Override
+	void Blowing() {
+		// TODO Auto-generated method stub
+		//ADD the sensors stuff to blow on the mic here!!!!
 	}
     
 }

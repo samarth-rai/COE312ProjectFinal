@@ -18,7 +18,8 @@ private static Clock instance;
 
 //19-06 - night
 //06-12 - morning
-//12-19 - noon
+//12-16 - noon
+//16-19 - evening
 private Clock()
 {
     Thread t = new Thread(this);
@@ -67,15 +68,18 @@ public void run()
                 dayCount++;
             }
         }
-        if(time.HOUR>19 || time.HOUR<=6){
-            setState(new NightState());
-        }  
         if(time.HOUR>6 || time.HOUR<=12){
             setState(new MorningState());
         }
-        if(time.HOUR>12 || time.HOUR<=19){
+        if(time.HOUR>12 || time.HOUR<=16){
             setState(new AfternoonState());
         }
+        if(time.HOUR>16 || time.HOUR<=19){
+            setState(new EveningState());
+        }
+        if(time.HOUR>19 || time.HOUR<=6){
+            setState(new NightState());
+        } 
         publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "Sun Jun 05 16:01:00 GST 2022"
    } 
 }
@@ -92,6 +96,9 @@ public void update(Message m) {
         }
         if(state.getClass().getSimpleName().equals("AfternoonState")){
             time.set(0, 0, 0, 12, 0);
+        }
+        if(state.getClass().getSimpleName().equals("EveningState")){
+            time.set(0, 0, 0, 16, 0);
         }
         if(state.getClass().getSimpleName().equals("NightState")){
             time.set(0, 0, 0, 19, 0);

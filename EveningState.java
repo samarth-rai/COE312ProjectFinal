@@ -1,25 +1,26 @@
 
-public class AfternoonState implements State{
+public class EveningState implements State{
     
-    public AfternoonState(){
+    public EveningState(){
        
     }
     @Override
     public void prev(Context context) {
-       context.setState(new MorningState());
+       context.setState(new AfternoonState());
         
     }
 
     @Override
     public void next(Context context) {
-        context.setState(new EveningState());
+        context.setState(new NightState());
         
     }
 
     @Override
     public void printStatus(Context context) {
-        UI.print("It is now the afternoon");
+        UI.print("It is now the evening");
         
     }
     
 }
+

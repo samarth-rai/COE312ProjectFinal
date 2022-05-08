@@ -9,9 +9,12 @@ public class House extends Craftable
         //empty
     }
     @Override
+    void Blowing() {
+        // TODO Auto-generated method stub
+        //empty
+    }
     void Completed() {
         // TODO Auto-generated method stub
         UI.print("House is built!");
     }
-    
 }

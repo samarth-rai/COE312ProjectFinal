@@ -7,6 +7,7 @@ public abstract class Craftable //IMPLEMENTS TEMPLATE PATTERN
         if(PlayerUsingStones()) //bool func
         {
             RubbingStones();
+            Blowing();
         }
         Completed();    //abstract func
     }
@@ -25,9 +26,10 @@ public abstract class Craftable //IMPLEMENTS TEMPLATE PATTERN
         UI.print("using leaves");
     }
     private boolean PlayerUsingStones(){
-        return false;
+        return true;
     }
 
     abstract void Completed();
     abstract void RubbingStones();
+    abstract void Blowing();
 }

@@ -3,7 +3,7 @@ public class NightState implements State {
     
     @Override
     public void prev(Context context) {
-        context.setState(new AfternoonState());
+        context.setState(new EveningState());
         
     }
 
