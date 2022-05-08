@@ -72,7 +72,7 @@ public class Location extends AbstractObserverSubject implements Runnable
 		UI.printArrayList(currentlyPlacedCharacters);
 		UI.print("Animals currently here:");
 		UI.printArrayList(currentlyPlacedAnimals);
-		UI.print("\nObjects currently here:");
+		UI.print("Objects currently here:");
 		UI.printArrayList(currentlyPlacedObjects);
 	}
 

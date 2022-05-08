@@ -289,51 +289,17 @@ public class Player extends Character implements Runnable, Movable {
    }
    
    public void buildHouse(){
-       for(int i=0; i<inventory.size();i++){
-           if(inventory.get(i).name.toLowerCase().equals("wood")){
-               Objects o1 = inventory.get(i);
-              for(int j=0; j<inventorySize;j++){
-                if(inventory.get(j).name.toLowerCase().equals("leaves")){
-                    Objects o2 = inventory.get(j);
-                    House house = new House();
-                    house.craftItem();
-                    inventory.remove(o1);
-                    inventory.remove(o2);
-                    Message m = new Message(this, "Objective", "BuiltHouse");
-                    publishMessage(m);
-                    return;
-                }
-              }
-           }
-       }
-       UI.print("You do not have the required items to make this!");
+    House house = new House();
+    house.craftItem();
+    Message m = new Message(this, "Objective", "BuiltHouse");
+    publishMessage(m);
    }
 
    public void makeFire() {
-    for(int i=0; i<inventory.size();i++){
-        if(inventory.get(i).name.toLowerCase().equals("wood")){
-            Objects o1 = inventory.get(i);
-           for(int j=0; j<inventory.size();j++){
-             if(inventory.get(j).name.toLowerCase().equals("leaves")){
-                Objects o2 = inventory.get(j);
-                 for(int k =0; k<inventorySize;k++){
-                    if(inventory.get(k).name.toLowerCase().equals("stones")){
-                        Objects o3 = inventory.get(k);
-                        inventory.remove(o1);
-                        inventory.remove(o2);
-                        inventory.remove(o3);
-                        Fire fire = new Fire();
-                        fire.craftItem();
-                        Message m = new Message(this, "Objective", "MadeFire");
-                        publishMessage(m);
-                        return;
-                    }
-                 }
-             }
-           }
-        }
-    }
-    UI.print("You do not have the required items to make this!");
+    Fire fire = new Fire();
+    fire.craftItem();
+    Message m = new Message(this, "Objective", "MadeFire");
+    publishMessage(m);
 }
 
    

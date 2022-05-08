@@ -48,15 +48,15 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     //Mandatory Instances
     Character[] characterList;
     Objectives objectives = new Objectives();
-    Clock clock = Clock.getInstance();
+    static Clock clock = Clock.getInstance();
     Map map = new Map();
     
     //Variables that store gamedata.
     ArrayList<Boolean> VisitedLocations = new ArrayList<Boolean>();
    
     //Auxilary Variables
-    Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
-    Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
+    static Subject[] stdSubjects = { clock }; // standard subjects that all objects and characters observe
+    static Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
     
     //making Vikram Kumar and his items
     Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
@@ -246,101 +246,27 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     public void L1() {
 
-        // we go to l2 if( builthouse, ==true)
-        // DONE - Notification(from location): New Location Unlocked
+        //house built
+        //fire made
 
-        // Time: Day night cycle based on time - SAAD
-        // Will send messages -> player ------ done
-        // Time takes it's observers as characterlist -> In other works, all characters
-        // observe time. ---- done
-        // Day 1 longer - Day counter, when daycount == 0 sleep(longertime) --- done
+        while(Objectives.BuiltHouse==false){
 
-        // COME BACK TO THIS // Disable functions at night unless there is some object
-        // SAMARTH
-
-        // Undead has method called activate -> dead -> undead state
-        // Discover and search Vikram corpse //OBJECTIVE 1 -> Triggered by search()
-        // function for the corpse.
-        // He will find
-        // Pilot License
-        // Wallet
-        // Watch -> used to track time
-        // VALUABLES
-        // Gold bracelet
-
-        // SAAD
-        // Viewtime -> Morning, Afternoon, Evening, Night
-        // Viewtime -> Exact time
-
-        // Message format for time, updates every minute
-        // (origin,"time","5:00")
-        // Before finding watch (Strategy)
-
-        // SAMARTH
-
-        // Can watch out for tribals that attack at 0:00, if Objective(buildhouse -
-        // completed)
-
-        // Create the instances for boxes
-        // Array to hold objects
-        // Wilson
-        // LV Bag -> increase inventory space from 2 objects to 30 (Send message to
-        // gamemaster -> sends message to player to increase inventory)
-        //
-        //
-
-        // Find axe while looking around ->objective
-
-        // ROSHNI
-
-        // If time is past 5:00 and player has an axe, create a wolf at islandEast.
-
-        // Two classes attack types extend AttackType-> instances in animal-> DONE
-        // scratch attack & pounce attack -> DONE
-        // Implement attacks - Strategy to implement attacks (Sends a message to what is ->DONE
-        // being attacked -> to reduce health) ->DONE
-
-        //SAMARTH
-
-        // Every living thing must have a state -> when killed state changes to dead
-        // When state changes -> actions that can be performed change
-        // Player thinks to himself, looks like this makes a good blanket, I can use
-        // this to spend the night
+        }
+        L2();
     }
 
     public void L2() {
-        // ROSHNI
+       //add objectives while(){ }
 
-        // Cut wood.
-        // Use axe to cut wood (5x wood)
-        // collect leaves(3x leaves)
-        // get this from one tree
-
-        // Create Tree
-
-        // --Not Assigned--//
-        // Crafting anything -> makes player tired, reduces health
-        // COME BACK TO - Reduce health when crafting objects
-        // Two types of objects -> Large & small, deteriorate health differently
-
-        // if Objective(buildhouse - completed), tribals appear everyday at 00:00
-
-        // COME BACK TO -- Fighting logic for tribals -
-        // Obj: Collect
-        // Eats egg from hen everyday
-        // L2();
-        // Build a House
-        // Fight the corpse of Vikram Kumar
-        // Befriend a Tribal
-        // Optional(Befriend William)
-
-        // L2();
+        
+        L3();
+       
     }
 
     public void L3() {
-        // Portable toilet washes up on shore
-        // Create raft using craftable class
-        // rescued by cargo ship
+       //rescue ship comes
+       //chuck waves
+       //and he is saved :))))
     }
 
     //Commands for control panel
@@ -386,7 +312,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "inspect":
                     cp.buttonWasPressed(1, input);
                     break;
-                case "acquire":
+                case "collect":
                     cp.buttonWasPressed(2, input);
                     break;
                 case "take":
