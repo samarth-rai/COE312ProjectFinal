@@ -1,23 +1,43 @@
 public class Fire extends Craftable
 {
-    
-	@Override
-	void RubbingStones() {
-		// TODO Auto-generated method stub
-		UI.print("*sparks* *sparks*");
+	Boolean actionRequired()
+	{
+		return true;
 	}
+	@Override
+	void placeMaterials()
+	{
+		UI.print("Stones have been placed");
+	}
+
 
     @Override
-	void Completed() {
-		// TODO Auto-generated method stub
-		UI.print("Fire is made!");
+	 void Completed() {
+		GameMaster.t.removeObsever(this);
+		UI.print("Fire has been made!");
 	}
 
 	@Override
-	void Blowing() {
-		// TODO Auto-generated method stub
-		//tcp 
-		//ADD the sensors stuff to blow on the mic here!!!!
+	void performAction()
+	{
+		UI.print("Hold your phone vertically, rub it like sticks and stones and blow into it to create a fire.");
+		GameMaster.t.registerObserver(this);
+	}
+
+
+	@Override
+	public void update(Message m) {
+		if(m.topic.equals("fireIssues"))
+		{
+			UI.print(m.payload);
+		}
+		if(m.topic.equals("fire"))
+		{
+			UI.print("*spark* *spark*");			
+			Completed();
+
+		}
+		
 	}
     
 }

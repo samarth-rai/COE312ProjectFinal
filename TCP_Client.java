@@ -11,8 +11,7 @@ import org.json.simple.parser.JSONParser;
 public class TCP_Client extends AbstractObserverSubject implements Runnable {
 	String host = "127.0.0.1";
 	int port = 8080;
-    int use;
-		TCP_Client(String host, int port, int use){
+		TCP_Client(String host, int port){
 			this.host = host;
 			this.port = port;
 			Thread t = new Thread(this);
@@ -27,26 +26,61 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 				BufferedReader br = new BufferedReader(reader);
 				String line = "";
                 int count=0;
-				while ((line = br.readLine()) != null && use==0 && count<10) {
-                    UI.print("Chop the tree using your phone!");
-	                JSONObject jsonObject = (JSONObject) parser.parse(line);
-					String AccX = (String) jsonObject.get("accelerometerAccelerationX");
-                    String AccY = (String) jsonObject.get("accelerometerAccelerationY");
-                    String AccZ = (String) jsonObject.get("accelerometerAccelerationZ");
-					Double netAcc = Math.pow(Math.pow(Float.parseFloat(AccX),2) + Math.pow(Float.parseFloat(AccY),2)+ Math.pow(Float.parseFloat(AccZ),2),1/2); //making the application non-trivial
-                    UI.print(netAcc.toString());
-                    publishMessage(new Message(this,"chop tree",netAcc.toString()));
+				
+				while(true)
+				{
+					line = br.readLine();
+					JSONObject jsonObject = (JSONObject) parser.parse(line);
+					String gyroY = (String) jsonObject.get("gyroRotationY");
+					String gyroX = (String) jsonObject.get("gyroRotationX");
+					String gyroZ = (String) jsonObject.get("gyroRotationZ");
+					Double gyroYval = Double.parseDouble(gyroY);
+					Double gyroXval = Double.parseDouble(gyroX);
+					Double gyroZval = Double.parseDouble(gyroZ);
+					Double rotation = Math.pow(gyroYval,2); //amplify the rotation on the Y axis
+					Double shakiness = Math.abs(gyroXval) + Math.abs(gyroYval);
+
+					String dbPower = (String) jsonObject.get("avAudioRecorderAveragePower");
+					Double dbPowerval = Double.parseDouble(dbPower);
+					String airPower = "";
+					if(dbPowerval<-15)
+					{
+						airPower="soft";
+					}					
+					else if(dbPowerval>-15&&dbPowerval<0)
+					{
+						airPower="perfect";
+					}
+					else if(dbPowerval>0)
+					{
+						airPower="hard";
+					}
+					String issues ="";
+					if(shakiness>5)
+					{
+						issues = issues + "Please shake the phone less\n";
+					}
+					if(airPower.equals("soft"))
+					{
+						issues = issues + "Please blow more air at the fire\n";
+					}
+					if(airPower.equals("hard"))
+					{
+						issues = issues + "Please blow less air at the fire\n";
+					}
+					if(rotation<1)
+					{
+						issues = issues + "Please rotate with more force\n";
+					}
+					if(issues.equals(""))
+					{
+						publishMessage(new Message(this, "fire", ""));
+					}
+                    else publishMessage(new Message(this,"fireIssues", issues));
 					Thread.sleep(1000);
-					count++;
-				} 
-                while ((line = br.readLine()) != null && use==1 && count<10) {
-                    UI.print("Attack by blowing on your phone!");
-	                JSONObject jsonObject = (JSONObject) parser.parse(line);
-					
-                   // publishMessage(new Message(this,"blow",netAcc.toString()));
-					Thread.sleep(1000);
-					count++;
-				} 
+				}
+				
+			
 	//----------------------------------------------------------------------------
 			} catch (UnknownHostException ex) {
 				System.out.println("Server not found: " + ex.getMessage());

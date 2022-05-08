@@ -8,6 +8,9 @@ public static Boolean foundAxe = false;
 public static Boolean discoverVikram = false;
 public static Boolean fightWolf = false;
 public static Boolean foundWatch = false;
+public static Boolean foundLVBag = false;
+public static Boolean BuiltHouse = false;
+public static Boolean MadeFire = false;
 
 @Override
 public void update(Message m) {
@@ -27,6 +30,16 @@ public void update(Message m) {
             case "foundWatch":
                 foundWatch=true;
                 break;
+            case "foundLVBag":
+                foundLVBag=true;
+                break;
+            case "BuiltHouse":
+                BuiltHouse=true;
+                break;
+            case "MadeFire":
+                MadeFire = true;
+                break;
+
         }
    } 
 }

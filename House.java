@@ -1,20 +1,26 @@
 public class House extends Craftable
 {
-    public boolean PlayerUsingStones(){
-        return false;
-    }
-    @Override
-    void RubbingStones() {
-        // TODO Auto-generated method stub
-        //empty
-    }
-    @Override
-    void Blowing() {
-        // TODO Auto-generated method stub
-        //empty
-    }
+    
     void Completed() {
         // TODO Auto-generated method stub
         UI.print("House is built!");
+    }
+
+    @Override
+    void placeMaterials() {
+        UI.print("Wood is placed");
+        UI.print("Leaves are placed");
+        
+    }
+
+    @Override
+    void performAction() {
+        UI.print("Tying the wood together with leaves.");
+    }
+
+    @Override
+    public void update(Message m) {
+       
+        
     }
 }

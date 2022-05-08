@@ -82,8 +82,11 @@ public class Player extends Character implements Runnable, Movable {
 
     public void sleep()
     {   
-        Message m = new Message(this,"sleep","");
-        publishMessage(m);
+        if(Objectives.BuiltHouse==true){
+            Message m = new Message(this,"sleep","");
+            publishMessage(m);
+        }
+        else UI.print("You need to build a house to sleep!");
         //Changes the state of clock to the next state;
     }
 
@@ -268,7 +271,7 @@ public class Player extends Character implements Runnable, Movable {
                
                 Character x=currentLocation.currentlyPlacedCharacters.get(i);
                 if(x.health==0){
-                    for(int j=0; j<x.inventory.size(); j++){
+                    for(int j=0; j<inventorySize; j++){
                        
                         if(ObjName.equals(x.inventory.get(j).name.toLowerCase())){
                             inventory.add(x.inventory.get(j)); // add to our inventory
@@ -289,13 +292,15 @@ public class Player extends Character implements Runnable, Movable {
        for(int i=0; i<inventory.size();i++){
            if(inventory.get(i).name.toLowerCase().equals("wood")){
                Objects o1 = inventory.get(i);
-              for(int j=0; j<inventory.size();j++){
+              for(int j=0; j<inventorySize;j++){
                 if(inventory.get(j).name.toLowerCase().equals("leaves")){
                     Objects o2 = inventory.get(j);
                     House house = new House();
                     house.craftItem();
                     inventory.remove(o1);
                     inventory.remove(o2);
+                    Message m = new Message(this, "Objective", "BuiltHouse");
+                    publishMessage(m);
                     return;
                 }
               }
@@ -311,7 +316,7 @@ public class Player extends Character implements Runnable, Movable {
            for(int j=0; j<inventory.size();j++){
              if(inventory.get(j).name.toLowerCase().equals("leaves")){
                 Objects o2 = inventory.get(j);
-                 for(int k =0; k<inventory.size();k++){
+                 for(int k =0; k<inventorySize;k++){
                     if(inventory.get(k).name.toLowerCase().equals("stones")){
                         Objects o3 = inventory.get(k);
                         inventory.remove(o1);
@@ -319,6 +324,8 @@ public class Player extends Character implements Runnable, Movable {
                         inventory.remove(o3);
                         Fire fire = new Fire();
                         fire.craftItem();
+                        Message m = new Message(this, "Objective", "MadeFire");
+                        publishMessage(m);
                         return;
                     }
                  }
@@ -490,7 +497,11 @@ public class Player extends Character implements Runnable, Movable {
     {
         while(true)
         {
+            if(Objectives.foundLVBag==true){
+                inventorySize=20; //inventory size increases when we find the lv bag
+            }
             this.checkHealth();
+
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
