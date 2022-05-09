@@ -11,6 +11,9 @@ public static Boolean foundWatch = false;
 public static Boolean foundLVBag = false;
 public static Boolean BuiltHouse = false;
 public static Boolean MadeFire = false;
+public static boolean fightTribals=false;
+public static boolean peaceOffered=false;
+public static boolean peaceAccepted=false;
 
 @Override
 public void update(Message m) {
@@ -39,6 +42,16 @@ public void update(Message m) {
             case "MadeFire":
                 MadeFire = true;
                 break;
+            case "fightTribals":
+                fightTribals = true;
+                break;
+            case "peaceOffered":
+                peaceOffered = true;
+                break;
+            case "peaceAccepted":
+                peaceOffered = true;
+                break;
+                
 
         }
    } 

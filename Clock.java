@@ -57,6 +57,7 @@ public void run()
             if(minCount==7){
                 minCount=0;
                 dayCount++;
+                publishMessage(new Message(this, "day",dayCount.toString() )); //intended for gamemaster to print " it is day 0"
             } 
         }
 
@@ -66,6 +67,7 @@ public void run()
             if(minCount==5) {
                 minCount=0;
                 dayCount++;
+                publishMessage(new Message(this, "day",dayCount.toString() )); //intended for gamemaster to print " it is day 0"
             }
         }
         if(time.HOUR>6 || time.HOUR<=12){
@@ -80,7 +82,7 @@ public void run()
         if(time.HOUR>19 || time.HOUR<=6){
             setState(new NightState());
         } 
-        publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "Sun Jun 05 16:01:00 GST 2022"
+        publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "16:01:00"
    } 
 }
 

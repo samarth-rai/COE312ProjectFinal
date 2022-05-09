@@ -70,7 +70,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             "An expensive gold bracelet, may or may not come in handy later");
 
     //Creating Tribals
-    Tribals tribal1 = new Tribals("Olskfghj",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
+    //commented because creating their instance is 
+    Tribals tribal1 = new Tribals("Mr. Oonga",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
     Tribals tribal2 = new Tribals("Glksjdfh",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     Tribals tribal3 = new Tribals("Pslkkjh",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
     Tribals tribal4 = new Tribals("Qxkdjfh",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
@@ -98,9 +99,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     Consumables box1 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandSouth, false);
     Consumables box2 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandWest, false);
     Consumables box3 = new Consumables("Box","An unopened FedEx package, try to open to see what is inside", islandWest, false);
-    Objects wilson = new Objects("Wilson", "A tennis ball made by Wilson Sporting Goods Company. A washed up FedEx Package found on the island.");
-    Objects lvbag = new Objects("Bag", "A Louis Vitton Bag with space to hold many items. A washed up FedEx Package found on the island.");
-    Objects SwissKnife = new Objects("Knife", "A Swiss Army Knife, can be used as a weapon. A washed up FedEx Package found on the island.");
+    Objects wilson = new Objects("Wilson", "A tennis ball made by Wilson Sporting Goods Company. Found inside a washed up FedEx Package.");
+    Objects lvbag = new Objects("Bag", "A Louis Vitton Bag with space to hold many items. Found inside a washed up FedEx Package.");
+    Objects SwissKnife = new Objects("Knife", "A Swiss Army Knife, can be used as a weapon. Found inside a washed up FedEx Package.");
     Consumables Tree1 = new Consumables("Tree", "A beautiful palm tree. Can be cut to gather resources.", islandNorth, false);
     Objects Wood1 = new Objects("Wood", "A piece of palm wood");
     Objects Leaves1 = new Objects("Leaves", "Leaves of palm tree");
@@ -129,7 +130,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     Objects Wood8 = new Objects("Wood", "A piece of acacia wood");
     Objects Leaves8 = new Objects("Leaves", "Leaves of acacia tree");
 
-
+    Boolean L1Ran =false;
+    Boolean L2Ran =false;
+    Boolean L3Ran =false;
       public static Location findLocation(String l) throws NoSuchObjectException {
         for (Location loc : locationList) {
             if (loc.name.equalsIgnoreCase(l))
@@ -182,10 +185,25 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             wolf1.registerObserver(player);
         }
     }
-    
+   
+    public void TribalAttack(){
+        
+        if (Objectives.fightTribals==false && clock.inGameHours >= 0 && clock.inGameHours <= 6) { //tribals attack between 12 - 6am
+            UI.print("The tribals appear to be attacking you!");
+            tribal1.registerObserver(player);
+            publishMessage(new Message(this, "Objectives", "fightTribals"));
+            
+        }
+        if(Objectives.fightTribals==true && clock.inGameHours >= 0 && clock.inGameHours <= 6){
+        UI.print("Since you have fought the tribals in the past, the Tribe Leader of the Oonga Boonga Tribe, Mr. Oonga has an offer of peace for you. However, the only condition is that within the next 24 hours, you much bring him a valueable item... Choose this item wisely.. If he does not like this item, the tribe will attack you!");
+        publishMessage(new Message(this, "Objectives", "peaceOffered"));
+        }
+    }
+
     public void intro() {
 
         clock.registerObserver(player);
+        clock.registerObserver(this);
         player.registerObserver(clock);
 
         //register all observers that couldn't be done before due to circular dependence.
@@ -238,35 +256,49 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        FedExPilot.nextState();
+        //FedExPilot.nextState();
 
         L1();
     }
     
-
+   
     public void L1() {
-
+        UI.print("This is level 1");
         //house built
         //fire made
+        //axe found
+        //discover vikram
+        //once these three are complete, L2 starts
 
-        while(Objectives.BuiltHouse==false){
+       // while(Objectives.BuiltHouse==false && Objectives.MadeFire==false && Objectives.foundAxe==false){
 
-        }
-        L2();
+        //}
+        L1Ran=true;
     }
 
     public void L2() {
-       //add objectives while(){ }
-
-        
-        L3();
        
+        
+       //talk to tribals
+        // make tribals say that they will not attack u if u bring something valueable to them within the next day.
+        //take goldbracelet and give to tribal leader Mr. Oonga
+        //to befriend do tribal1.type=="friend";
+        //Objectives.BefriendTribals==true && Objectives.defeatVikram == true; 
+        //Objectives:
+            //befriend tribal
+            //defeatVikram
+            //
+       // L3();
+       L2Ran =true;
     }
 
     public void L3() {
+
+    
        //rescue ship comes
        //chuck waves
        //and he is saved :))))
+       L3Ran = true;
     }
 
     //Commands for control panel
@@ -274,27 +306,46 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     CommandInspect cInspect = new CommandInspect(player); //1
     CommandAcquire cAcquire = new CommandAcquire(player);//2
     CommandTakeItem cTakeItem = new CommandTakeItem(player);//3
-    CommandBattle cBattle = new CommandBattle(player);//4
-    CommandInteract cInteract = new CommandInteract(player);//5
-    CommandEat cEat = new CommandEat(player);//6
-    CommandTravel cTravel = new CommandTravel(player);//7
-    CommandInventory cInventory = new CommandInventory(player);//8
-    CommandHealth cHealth = new CommandHealth(player);//9
-    CommandMap cMap = new CommandMap(player);//10
-    CommandSleep cSleep = new CommandSleep(player);//11
-    CommandTime cTime = new CommandTime(player); //12
-    CommandMake cMake = new CommandMake(player);//13
-    CommandHelp cHelp = new CommandHelp(player);//14
+    CommandGiveItem cGiveItem = new CommandGiveItem(player);//4
+    CommandBattle cBattle = new CommandBattle(player);//5
+    CommandInteract cInteract = new CommandInteract(player);//6
+    CommandEat cEat = new CommandEat(player);//7
+    CommandTravel cTravel = new CommandTravel(player);//8
+    CommandInventory cInventory = new CommandInventory(player);//9
+    CommandHealth cHealth = new CommandHealth(player);//10
+    CommandMap cMap = new CommandMap(player);//11
+    CommandSleep cSleep = new CommandSleep(player);//12
+    CommandTime cTime = new CommandTime(player); //13
+    CommandMake cMake = new CommandMake(player);//14
+    CommandHelp cHelp = new CommandHelp(player);//15
 
     //Control panel and command array
-    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cSleep, cTime, cMake, cHelp}; // add more commands as needed
+    Command [] cmds = {cLook, cInspect, cAcquire, cTakeItem, cGiveItem, cBattle, cInteract, cEat,cTravel, cInventory,cHealth, cMap, cSleep, cTime, cMake, cHelp}; // add more commands as needed
     ControlPanel cp = new ControlPanel(cmds);
     @Override
     public void run() {
         intro();
+
         String input;
         String[] commands;
         while (true) {
+            if(L1Ran==false){
+                L1();
+            }
+            if(L1Ran==true && L2Ran==false ){
+               // TribalAttack();
+            }
+            if(L2Ran==false && Objectives.BuiltHouse==true && Objectives.MadeFire==true && Objectives.discoverVikram==true && Objectives.foundAxe==true){
+                TribalAttack();
+                L2();
+            }
+            if(L3Ran==false && Objectives.peaceAccepted==true){
+                L3();
+            }
+            if(tribal1.inventory.contains(goldBracelet) && Objectives.peaceAccepted==false){
+                publishMessage(new Message(this, "Objective", "peaceAccepted")); //message intended for Objectives class
+                tribal1.type="friend"; 
+            }
             if(player.inventory.contains(watch) && Objectives.foundWatch==false){
                 publishMessage(new Message(this, "Objective", "foundWatch")); //message intended for Objectives class
             }
@@ -318,41 +369,44 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
                 case "take":
                     cp.buttonWasPressed(3, input);
                     break;
-                case "battle":
+                case "give":
                     cp.buttonWasPressed(4, input);
                     break;
+                case "battle":
+                    cp.buttonWasPressed(5, input);
+                    break;
                 case "chop":                    
-                    cp.buttonWasPressed(5, input);
-                    break;
-                case "open":                    
-                    cp.buttonWasPressed(5, input);
-                    break;
-                case "eat":
                     cp.buttonWasPressed(6, input);
                     break;
-                case "travel":
+                case "open":                    
+                    cp.buttonWasPressed(6, input);
+                    break;
+                case "eat":
                     cp.buttonWasPressed(7, input);
                     break;
-                case "inventory":
+                case "travel":
                     cp.buttonWasPressed(8, input);
                     break;
-                case "health":
+                case "inventory":
                     cp.buttonWasPressed(9, input);
                     break;
-                case "map":
+                case "health":
                     cp.buttonWasPressed(10, input);
                     break;
-                case "sleep":
+                case "map":
                     cp.buttonWasPressed(11, input);
                     break;
-                case "time":
+                case "sleep":
                     cp.buttonWasPressed(12, input);
                     break;
-                case "make":
+                case "time":
                     cp.buttonWasPressed(13, input);
                     break;
+                case "make":
+                    cp.buttonWasPressed(14, input);
+                    break;
                 case "?": //case "help":
-                    cp.buttonWasPressed(14,input);
+                    cp.buttonWasPressed(15,input);
                     break;
                 default:
                 UI.print("Invalid command!");
@@ -363,7 +417,11 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     @Override
     public void update(Message m) {
-        
+        if(m.topic.equals("day")){
+            UI.print("Day "+m.payload + " begins");
+            UI.print("You lost 5 HP. Eat to restore your health."); // you lose 5 health everyday
+            player.health=player.health-5;
+        }
         
     }
 }

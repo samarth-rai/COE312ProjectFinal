@@ -7,7 +7,7 @@ public class CommandAcquire implements Command {
 
     public void execute(String input) {
 
-        String[] inputs = input.split("acquire ");
+        String[] inputs = input.split("collect ");
         try {
             p.acquire(inputs[1]);
         } catch (IndexOutOfBoundsException e) {

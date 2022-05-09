@@ -31,7 +31,6 @@ public class Player extends Character implements Runnable, Movable {
             }
             //else vt = new ViewTimeNoWatch();
             vt.ViewTime();
-     
     }
 
     public void setViewTimeBehavior(ViewTimeBehavior fb) { //use this to change the viewtime functionality when the watch is discovered just call setViewTimeBehavior(new ViewTimeWatch())  
@@ -50,8 +49,6 @@ public class Player extends Character implements Runnable, Movable {
 
    public synchronized void checkHealth()
    {
-       
-    
        if (this.health <= 30)
        {
            UI.print("Your health is reducing, please increase it by eating or sleeping");
@@ -162,12 +159,16 @@ public class Player extends Character implements Runnable, Movable {
         "\nacquire <object>"+
         "\ntake <object>"+
         "\nbattle <character>"+
-        "\ncut <object>"+
+        "\nchop <object>"+
+        "\nopen <object>"+
         "\neat <object>"+
         "\ntravel <location>"+
         "\ninventory"+
         "\nhealth"+
-        "\nmap lol");
+        "\nmap"+
+        "\nsleep"+
+        "\ntime"+
+        "\nmake <object>");
 
     }
 
@@ -255,6 +256,33 @@ public class Player extends Character implements Runnable, Movable {
         }
    }
 
+
+   public void giveItem(String s){ //syntax: give goldbracelet to mr. oonga
+    String[] commands = s.split(" ");
+       String ObjName = commands[1];
+       String CharName = commands[3];
+       for(int i=4; i<commands.length; i++){
+           CharName += " " +commands[i] ;
+       }
+       ObjName=ObjName.toLowerCase(); //apple
+       CharName=CharName.toLowerCase(); //vikram kumar
+       for(int i=0; i<currentLocation.currentlyPlacedCharacters.size(); i++){
+        if(CharName.equals(currentLocation.currentlyPlacedCharacters.get(i).name.toLowerCase())){
+            Character x=currentLocation.currentlyPlacedCharacters.get(i);
+                for(int j=0; j<inventory.size(); j++){
+                    if(ObjName.equals(inventory.get(j).name.toLowerCase())){
+                        Objects o = inventory.get(j);
+                        x.inventory.add(o); // add to their inventory
+                        UI.print(o.name + " was added to "+x.name+"'s inventory.");
+                        inventory.remove(o); //remove from our inventory
+                    }
+                    
+                }
+        }
+        
+    }
+
+   }
    public void takeItem(String s) //syntax: take watch from vikram kumar
    {
        String[] commands = s.split(" ");
@@ -271,7 +299,7 @@ public class Player extends Character implements Runnable, Movable {
                
                 Character x=currentLocation.currentlyPlacedCharacters.get(i);
                 if(x.health==0){
-                    for(int j=0; j<inventorySize; j++){
+                    for(int j=0; j<x.inventory.size(); j++){
                        
                         if(ObjName.equals(x.inventory.get(j).name.toLowerCase())){
                             inventory.add(x.inventory.get(j)); // add to our inventory
@@ -281,7 +309,7 @@ public class Player extends Character implements Runnable, Movable {
                         
                     }
                 }
-                else UI.print("You need to fight" + x.name + "to take from them");
+                else UI.print("You need to fight " + x.name + " to take from them");
             }
             
         }
