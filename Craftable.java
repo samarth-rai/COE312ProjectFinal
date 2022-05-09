@@ -8,8 +8,6 @@ public abstract class Craftable extends AbstractObserver //IMPLEMENTS TEMPLATE P
         {
             Completed();
         }
-        
-
     }
     
 // for creating fire -> place wood -> placeLeaf-> rub stones (sensor) (blow on the fire to make it going, use mic)

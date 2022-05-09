@@ -3,7 +3,6 @@ public class AttackPounce extends AttackType
 
 	public AttackPounce(Object s) {
 		super(s);
-		//TODO Auto-generated constructor stub
 	}
 
 	

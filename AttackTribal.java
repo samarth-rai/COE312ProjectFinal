@@ -1,8 +1,5 @@
 public class AttackTribal extends AttackType{
 
-	
-
-
 	public AttackTribal(Object s) {
 		super(s);
 	}
