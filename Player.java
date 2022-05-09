@@ -39,7 +39,7 @@ public class Player extends Character implements Runnable, Movable {
     public void look(Location l)
     {
         l.lookAround();
-        if(l.name=="IslandNorth")
+        if(l.name=="Island North")
         {
             Message m = new Message(this,"Objective","discoverVikram");
             publishMessage(m);
@@ -516,7 +516,7 @@ public Boolean containsObjects(String s) throws NoSuchElementException
                 inventorySize=20; //inventory size increases when we find the lv bag
             }
             this.checkHealth();
-            if(this.containsObjects("axe"))
+            if(this.containsObjects("axe") && Objectives.foundAxe==false)
             {
                 publishMessage(new Message(this, "Objective", "foundAxe"));
             }
