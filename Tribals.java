@@ -41,6 +41,7 @@ public class Tribals extends Character implements Runnable
     public boolean deadYet(){
         if(this.health<0){
             readyToFight=false;
+            publishMessage(new Message(this,"stopFight",""));
             character.removeObsever(this);
             return true;
         }

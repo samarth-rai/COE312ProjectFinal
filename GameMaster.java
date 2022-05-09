@@ -199,6 +199,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         if (Objectives.fightTribals==false && clock.inGameHours >= 0 && clock.inGameHours <= 6) { //tribals attack between 12 - 6am
             UI.print("The tribals appear to be attacking you!");
             tribal1.attack(player);
+            if((tribal1).deadYet()==true)
             publishMessage(new Message(this, "Objectives", "fightTribals"));
 
             
@@ -272,7 +273,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        //FedExPilot.nextState();
+        FedExPilot.nextState();
         UI.print("To begin the game, please pair your gamepad/phone.\n");
         UI.printNormal("IP Address: "); 
         IP = UI.read();

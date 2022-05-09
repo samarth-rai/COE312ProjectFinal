@@ -66,6 +66,10 @@ public class Undead extends Character implements Context, Runnable{
                 e.printStackTrace();
             }
         }
+        if(health<=0){
+            nextState();
+            //this.setState(new DeadState());
+        }
         
     }
 
