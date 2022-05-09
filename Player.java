@@ -231,6 +231,19 @@ public class Player extends Character implements Runnable, Movable {
       
    }
 
+   public void attack(Character c)
+   {
+       this.registerObserver(c);
+       UI.print("You are trying to fight back against "+ c.name);
+       GameMaster.t.registerObserver(GameMaster.player);
+   }
+
+   public void attack(Animal c)
+   {
+       this.registerObserver(c);
+       UI.print("You are trying to fight back against "+ c.name);
+       GameMaster.t.registerObserver(GameMaster.player);
+   }
    public void battle(String character)
    {
        try{
@@ -324,10 +337,18 @@ public class Player extends Character implements Runnable, Movable {
    }
 
    public void makeFire() {
-    Fire fire = new Fire();
-    fire.craftItem();
-    Message m = new Message(this, "Objective", "MadeFire");
-    publishMessage(m);
+    if(containsObjects("stones") && containsObjects("wood") && containsObjects("leaves"))
+    {
+        Fire fire = new Fire();
+        fire.craftItem();
+        Message m = new Message(this, "Objective", "MadeFire");
+        publishMessage(m);
+    }
+    else
+    {
+        UI.print("You do not have the necesarry materials!");
+    }
+    
 }
 
 public Objects getObjects(String s) throws NoSuchElementException
@@ -340,6 +361,12 @@ public Objects getObjects(String s) throws NoSuchElementException
 
     throw new NoSuchElementException();
 }
+
+public void fightBack()
+{
+
+}
+
 
 public Boolean containsObjects(String s) throws NoSuchElementException
 {
@@ -505,6 +532,61 @@ public Boolean containsObjects(String s) throws NoSuchElementException
         "\n                                                                                ");
     }
    
+}
+@Override
+public void update(Message m)
+{
+    switch(m.topic.toLowerCase())
+    {
+        case "travel": 
+        {
+            currentLocation= (Location) m.origin;
+            break;
+        }
+        
+        case "time":{
+            //what to do when char gets this message? this happens every min btw
+            break;
+        }
+
+        case "day":{
+            //what to do when char gets this message? this happens every day btw
+            break;
+        }
+
+        case "attack":{
+            this.health -= Integer.parseInt(m.payload);
+            UI.print(this.name + "'s health has decreased by " + m.payload + " points." );
+            if(m.origin.getClass().getSimpleName().equals("Animal"))
+                this.attack((Animal)m.origin);
+            this.attack((Character)m.origin);
+            }
+            break;
+        case "food":{
+            this.health += Integer.parseInt(m.payload);
+            Food f = (Food)m.origin;
+            UI.print(this.name + " ate a(n) " + f.name + ".\nHealth increased by " + m.payload + " points." );
+        }
+            break;
+        case "chop tree":{
+            Double netAcc = Double.parseDouble(m.payload);
+        }
+        break;     
+        case "fight" :{
+            aType.Attack();
+        }
+        break;
+        case "fightFail" :{
+            UI.print("Please swing the sword harder!");
+        }
+        case "stopFight" :
+        {
+                AbstractObserverSubject sub = (AbstractObserverSubject) m.origin;
+                this.removeObsever(sub);
+                GameMaster.t.removeObsever(this);
+        }
+        
+    }
 }
 
     @Override

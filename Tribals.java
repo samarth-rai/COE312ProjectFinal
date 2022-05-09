@@ -51,6 +51,7 @@ public class Tribals extends Character implements Runnable
         while(true){
          while(type.equals("enemy") && deadYet()==false && readyToFight==true)
          {
+             
             aType = new AttackTribal(this);
             aType.Attack();
              try {

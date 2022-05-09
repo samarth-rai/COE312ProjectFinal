@@ -1,8 +1,5 @@
 public class AttackSword extends AttackType{
 
-	
-
-
 	public AttackSword(Object s) {
 		super(s);
 	}
@@ -10,8 +7,8 @@ public class AttackSword extends AttackType{
 	void Attack() {
 		
 		Character attackingCharacter = (Character) attacker;
-		UI.print(attackingCharacter.name + " attacked you with a sword!");
-        Message m = new Message(attackingCharacter,"attack","5");
+		UI.print(attackingCharacter.name + " attacked with a sword!");
+        Message m = new Message(attackingCharacter,"attack","25");
 		attackingCharacter.publishMessage(m);
 	}
 

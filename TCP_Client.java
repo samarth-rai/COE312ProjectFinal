@@ -39,6 +39,10 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 				arrdB.add(0.0);
 				arrdB.add(0.0);
 				arrdB.add(0.0);
+				ArrayList<Double> arrAcc = new ArrayList<Double>();
+				arrAcc.add(0.0);
+				arrAcc.add(0.0);
+				arrAcc.add(0.0);
 				while(true)
 				{
 					line = br.readLine();
@@ -51,13 +55,16 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 					Double gyroZval = Double.parseDouble(gyroZ);
 					Double rotation_triv = Math.pow(gyroYval,2); //amplify the rotation on the Y axis
 					arrRotate.add(rotation_triv);
-					Double rotation = (arrRotate.get(arrRotate.size()-2)+arrRotate.get(arrRotate.size()-1)+arrRotate.get(arrRotate.size()))/3; //finding moving average of the rotation
+					Double rotation = (arrRotate.get(arrRotate.size()-3)+arrRotate.get(arrRotate.size()-2)+arrRotate.get(arrRotate.size()-1))/3; //finding moving average of the rotation
+					
 					Double shakiness_triv = Math.abs(gyroXval) + Math.abs(gyroYval);
 					arrShake.add(shakiness_triv);
-					Double shakiness = (arrShake.get(arrShake.size()-2)+arrShake.get(arrShake.size()-1)+arrShake.get(arrShake.size()))/3; //finding moving average of the shakiness
+					Double shakiness = (arrShake.get(arrShake.size()-3)+arrShake.get(arrShake.size()-2)+arrShake.get(arrShake.size()-1))/3; //finding moving average of the shakiness
+					
 					String dbPower = (String) jsonObject.get("avAudioRecorderAveragePower");
 					Double dbPowerval_triv = Double.parseDouble(dbPower);
-					Double dbPowerval = (arrdB.get(arrdB.size()-2)+arrdB.get(arrdB.size()-1)+arrdB.get(arrdB.size()))/3; //finding moving average of the dB level
+					Double dbPowerval = (arrdB.get(arrdB.size()-3)+arrdB.get(arrdB.size()-2)+arrdB.get(arrdB.size()-1))/3; //finding moving average of the dB level
+					
 					String airPower = "";
 					if(dbPowerval<-15)
 					{
@@ -93,6 +100,23 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 						publishMessage(new Message(this, "fire", ""));
 					}
                     else publishMessage(new Message(this,"fireIssues", issues));
+
+					Double AccY = Double.parseDouble((String) jsonObject.get("accelerometerAccelerationY"));
+					Double AccX = Double.parseDouble((String) jsonObject.get("accelerometerAccelerationX"));
+					Double AccZ = Double.parseDouble((String) jsonObject.get("accelerometerAccelerationZ"));
+					Double netAcc_triv = Math.pow(AccY,2) + Math.pow(AccX,2) + Math.pow(AccZ,2);
+					netAcc_triv = Math.sqrt(netAcc_triv);
+					arrAcc.add(Math.pow(AccY,2));
+					Double netAcc = (arrAcc.get(arrAcc.size()-3)+arrAcc.get(arrAcc.size()-2)+arrAcc.get(arrAcc.size()-1))/3; //finding moving average of the acceleration
+					if(netAcc>0.015)
+					{
+						publishMessage(new Message(this, "fight", ""));
+					}
+					else{
+						publishMessage(new Message(this, "noFight", ""));
+						
+					}
+
 					Thread.sleep(1000);
 				}
 				

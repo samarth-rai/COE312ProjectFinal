@@ -19,6 +19,7 @@ public static boolean peaceAccepted=false;
 public void update(Message m) {
    if(m.topic=="Objective")
    {
+        
         switch(m.payload)
         {
             case "foundAxe":

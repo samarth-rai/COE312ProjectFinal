@@ -12,6 +12,7 @@ public abstract class Character extends AbstractObserverSubject{
     ArrayList<Objects> inventory = new ArrayList<Objects>();
     Location currentLocation;// = new Location();
     String description;
+    AttackType aType = new AttackSword(this);
 
 
     public Character(Subject[] subjects) {
@@ -72,17 +73,19 @@ public abstract class Character extends AbstractObserverSubject{
     
     public void attack(Character c)
     {
-
+        this.registerObserver(c);
     }
     
+    public void fightBack(Character c)
+    {
+        aType.Attack();
+    }
 
 
     public String toString()
     {
         return this.name;
     }
-
-
     public void update(Message m)
     {
         switch(m.topic.toLowerCase())
@@ -106,22 +109,34 @@ public abstract class Character extends AbstractObserverSubject{
             case "attack":{
                 this.health -= Integer.parseInt(m.payload);
                 UI.print(this.name + "'s health has decreased by " + m.payload + " points." );
+                if(health<=0)
+                {
+                    AbstractObserverSubject sub = (AbstractObserverSubject) m.origin;
+                    sub.removeObsever(this);
+                    GameMaster.t.removeObsever(sub);
+                    publishMessage(new Message(this,"stopFight",""));
+
+                }
+
             }
                 break;
+            case "stopFight":
+            {
+                AbstractObserverSubject sub = (AbstractObserverSubject) m.origin;
+                sub.removeObsever(this);
+                this.removeObsever(sub);
+            }    
             case "food":{
                 this.health += Integer.parseInt(m.payload);
                 Food f = (Food)m.origin;
                 UI.print(this.name + " ate a(n) " + f.name + ".\nHealth increased by " + m.payload + " points." );
             }
-            if(m.topic.equals("chop tree")){
+                break;
+            case "chop tree":{
                 Double netAcc = Double.parseDouble(m.payload);
-                
             }
+            break;        
             
         }
     }
-
-   
-    
-
 }

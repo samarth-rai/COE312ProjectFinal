@@ -219,6 +219,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         clock.registerObserver(player);
         clock.registerObserver(this);
         player.registerObserver(clock);
+        
 
         //register all observers that couldn't be done before due to circular dependence.
         player.registerObserver(islandEast);
@@ -271,7 +272,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        //FedExPilot.nextState();
+        FedExPilot.nextState();
         UI.print("To begin the game, please pair your gamepad/phone.\n");
         UI.printNormal("IP Address: "); 
         IP = UI.read();
@@ -374,7 +375,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             if(player.inventory.contains(lvbag) && Objectives.foundLVBag==false){
                 publishMessage(new Message(this, "Objective", "foundLVBag")); //message intended for Objectives class
             }
-            launchWolf(); //Second objective to clear in the game.
+            //launchWolf(); //Second objective to clear in the game.
             UI.printnln("command > ");
             input = UI.read();
             commands = input.split(" ");

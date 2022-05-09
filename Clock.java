@@ -101,16 +101,30 @@ public void update(Message m) {
         printStatus();
         if(state.getClass().getSimpleName().equals("MorningState")){
             inGameHours=6;
+            while(Integer.parseInt(returnTime().split(":")[0])!=inGameHours){
+                time.roll(time.HOUR,1);
+            }
+            
+    
             publishMessage(new Message(this, "day",dayCount.toString() )); //intended for gamemaster to print " it is day 0"
         }
         if(state.getClass().getSimpleName().equals("AfternoonState")){
             inGameHours=12;
+            while(Integer.parseInt(returnTime().split(":")[0])!=inGameHours){
+                time.roll(time.HOUR,1);
+            }
         }
         if(state.getClass().getSimpleName().equals("EveningState")){
             inGameHours=17;
+            while(Integer.parseInt(returnTime().split(":")[0])!=inGameHours){
+                time.roll(time.HOUR,1);
+            }
         }
         if(state.getClass().getSimpleName().equals("NightState")){
             inGameHours=19;
+            while(Integer.parseInt(returnTime().split(":")[0])!=inGameHours){
+                time.roll(time.HOUR,1);
+            }
         }
 
     }
