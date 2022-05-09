@@ -154,21 +154,21 @@ public class Player extends Character implements Runnable, Movable {
     }
 
     public void help(){
-        UI.printNormal("look"+
-        "\ninspect <object>"+
-        "\nacquire <object>"+
-        "\ntake <object>"+
-        "\nbattle <character>"+
-        "\nchop <object>"+
-        "\nopen <object>"+
-        "\neat <object>"+
-        "\ntravel <location>"+
-        "\ninventory"+
-        "\nhealth"+
-        "\nmap"+
-        "\nsleep"+
-        "\ntime"+
-        "\nmake <object>");
+        UI.printNormal("LIST OF COMMANDS\nlook: to look around you."+
+        "\ninspect <object>/<character>: to get more info about an object or character."+
+        "\ncollect <object>: to acquire the object."+
+        "\ntake <object>: to acquire an item that is currently with an other character."+
+        "\nbattle <character>: to start a battle with a character."+
+        "\nchop <object>: to chop an object. (ideally a tree)"+
+        "\nopen <object>: to open an openable object."+
+        "\neat <object>: to eat a food item."+
+        "\ntravel <location>: to travel to a location."+
+        "\ninventory: to get list of inventory items"+
+        "\nhealth: to get current health status."+
+        "\nmap: to see the map."+
+        "\nsleep: to sleep."+
+        "\ntime: to know the time."+
+        "\nmake <object>: to make an object. (house, fire, etc)");
 
     }
 

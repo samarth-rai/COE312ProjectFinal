@@ -68,11 +68,11 @@ public class Location extends AbstractObserverSubject implements Runnable
 	public void lookAround()
 	{
 		UI.print(name);
-		UI.print("Characters currently here:");
+		UI.print("\nCharacters currently here:");
 		UI.printArrayList(currentlyPlacedCharacters);
-		UI.print("Animals currently here:");
+		UI.print("\nAnimals currently here:");
 		UI.printArrayList(currentlyPlacedAnimals);
-		UI.print("Objects currently here:");
+		UI.print("\nObjects currently here:");
 		UI.printArrayList(currentlyPlacedObjects);
 	}
 

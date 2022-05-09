@@ -197,13 +197,13 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     public void TribalAttack(){
         
         if (Objectives.fightTribals==false && clock.inGameHours >= 0 && clock.inGameHours <= 6) { //tribals attack between 12 - 6am
-            UI.print("The tribals appear to be attacking you!");
+            tribal1.readyToFight=true;
             tribal1.attack(player);
             publishMessage(new Message(this, "Objectives", "fightTribals"));
 
             
         }
-        if(Objectives.fightTribals==true && clock.inGameHours >= 0 && clock.inGameHours <= 6){
+        if(Objectives.fightTribals==true && clock.inGameHours >= 0 && clock.inGameHours <= 6 && Objectives.peaceOffered==false){
             UI.print("Since you have fought the tribals in the past, the Tribe Leader of the Oonga Boonga Tribe, Mr. Oonga has an offer of peace for you. However, the only condition is that within the next 24 hours, you much bring him a valueable item... Choose this item wisely.. If he does not like this item, the tribe will attack you!");
             publishMessage(new Message(this, "Objectives", "peaceOffered"));
         }
@@ -229,7 +229,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         this.registerObserver(objectives);
         player.registerObserver(objectives);
 
-       //UI.print(introduction);
+    UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
         islandNorth.currentlyPlacedObjects.add(stones);
         
@@ -272,7 +272,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        FedExPilot.nextState();
+        //FedExPilot.nextState();
         UI.print("To begin the game, please pair your gamepad/phone.\n");
         UI.printNormal("IP Address: "); 
         IP = UI.read();

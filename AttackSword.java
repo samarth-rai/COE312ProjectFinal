@@ -7,7 +7,7 @@ public class AttackSword extends AttackType{
 	void Attack() {
 		
 		Character attackingCharacter = (Character) attacker;
-		UI.print(attackingCharacter.name + " attacked with a sword!");
+		UI.print(attackingCharacter.name + " attacked with an Axe!");
         Message m = new Message(attackingCharacter,"attack","25");
 		attackingCharacter.publishMessage(m);
 	}
