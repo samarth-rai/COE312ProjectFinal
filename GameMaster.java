@@ -217,7 +217,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     public void intro() {
 
         clock.registerObserver(player);
-        clock.registerObserver(this);
+        //clock.registerObserver(this);
         player.registerObserver(clock);
         
 
@@ -272,7 +272,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(wallet);
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
-        FedExPilot.nextState();
+        //FedExPilot.nextState();
         UI.print("To begin the game, please pair your gamepad/phone.\n");
         UI.printNormal("IP Address: "); 
         IP = UI.read();

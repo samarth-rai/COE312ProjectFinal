@@ -31,6 +31,7 @@ public class Tribals extends Character implements Runnable
 
     public void attack(Character character)
     {
+        readyToFight=true;
         this.character = character;
         this.registerObserver(character);
         Thread th = new Thread(this);
@@ -40,7 +41,7 @@ public class Tribals extends Character implements Runnable
     public boolean deadYet(){
         if(this.health<0){
             readyToFight=false;
-            this.removeObsever(character);
+            character.removeObsever(this);
             return true;
         }
         else return false;

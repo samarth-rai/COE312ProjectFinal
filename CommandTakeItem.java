@@ -6,7 +6,11 @@ public class CommandTakeItem implements Command {
         this.p = pl;
     }
     public void execute(String x) {
-        p.takeItem(x);
+        try{p.takeItem(x);}
+        catch(ArrayIndexOutOfBoundsException e)
+                {
+                    UI.print("Invalid command");
+                }
     }
     public void undo() {
         UI.print("This cannot be undone");
