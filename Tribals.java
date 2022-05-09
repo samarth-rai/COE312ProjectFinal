@@ -29,14 +29,14 @@ public class Tribals extends Character implements Runnable
         }
     }
 
-    public void attack(Character character)
-<<<<<<< HEAD
-    {   
+    public void attack(Character character){
+
+      
         UI.print("The tribals appear to be attacking you!");
-=======
-    {
+
+    
         readyToFight=true;
->>>>>>> e313d3a209b5bd50c92eb76c9f8b54e26f3b5886
+
         this.character = character;
         this.registerObserver(character);
         Thread th = new Thread(this);
