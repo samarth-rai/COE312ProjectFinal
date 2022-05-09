@@ -199,6 +199,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         if (Objectives.fightTribals==false && clock.inGameHours >= 0 && clock.inGameHours <= 6) { //tribals attack between 12 - 6am
             tribal1.readyToFight=true;
             tribal1.attack(player);
+            if((tribal1).deadYet()==true)
             publishMessage(new Message(this, "Objectives", "fightTribals"));
 
             
@@ -217,7 +218,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     public void intro() {
 
         clock.registerObserver(player);
-        clock.registerObserver(this);
+        //clock.registerObserver(this);
         player.registerObserver(clock);
         
 

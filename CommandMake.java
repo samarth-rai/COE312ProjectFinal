@@ -9,10 +9,18 @@ public class CommandMake implements Command{
         String[] inputs= input.split(" ");
         switch(inputs[1]){
             case "house": 
-                p.buildHouse();
+                try{p.buildHouse();}
+                catch(ArrayIndexOutOfBoundsException e)
+                {
+                    UI.print("Invalid command");
+                }
                 break;
             case "fire":
-                p.makeFire();
+                try{p.makeFire();}
+                catch(ArrayIndexOutOfBoundsException e)
+                {
+                    UI.print("Invalid command");
+                }
                 break;
 
         }

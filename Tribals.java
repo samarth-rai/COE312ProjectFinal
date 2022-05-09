@@ -30,8 +30,13 @@ public class Tribals extends Character implements Runnable
     }
 
     public void attack(Character character)
+<<<<<<< HEAD
     {   
         UI.print("The tribals appear to be attacking you!");
+=======
+    {
+        readyToFight=true;
+>>>>>>> e313d3a209b5bd50c92eb76c9f8b54e26f3b5886
         this.character = character;
         this.registerObserver(character);
         Thread th = new Thread(this);
@@ -41,7 +46,8 @@ public class Tribals extends Character implements Runnable
     public boolean deadYet(){
         if(this.health<0){
             readyToFight=false;
-            this.removeObsever(character);
+            publishMessage(new Message(this,"stopFight",""));
+            character.removeObsever(this);
             return true;
         }
         else return false;

@@ -62,8 +62,23 @@ public class Animal extends AbstractObserverSubject implements Runnable {
         {
             case "attack":{
                 this.health -= Integer.parseInt(m.payload);
-                UI.print(this.name + "'s health has decreased by" + m.payload + "points." );
+                UI.print(this.name + "'s health has decreased by " + m.payload + " points." );
+                if(health<=0)
+                {
+                    AbstractObserverSubject sub = (AbstractObserverSubject) m.origin;
+                    sub.removeObsever(this);
+                    GameMaster.t.removeObsever(sub);
+                    publishMessage(new Message(this,"stopFight",""));
+
+                }
+
+            }
                 break;
+            case "stopFight":
+            {
+                AbstractObserverSubject sub = (AbstractObserverSubject) m.origin;
+                sub.removeObsever(this);
+                this.removeObsever(sub);
             }
             
         }
