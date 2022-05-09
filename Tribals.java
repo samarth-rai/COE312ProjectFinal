@@ -7,6 +7,7 @@ public class Tribals extends Character implements Runnable
     String type = "enemy";
     AttackType aType;
     Boolean readyToFight=false;
+    Character character;
 
     public Tribals(Subject[] subjects,String name, Location currentLocation, Integer health, Integer inventorySize, String tribeName) {
             super(subjects,name,currentLocation,health, inventorySize);
@@ -21,12 +22,25 @@ public class Tribals extends Character implements Runnable
 
     public void inspect()
     {
-        UI.print( "A " + this.getClass().getSimpleName() + " whose tribe is " + tribe);
+        if(deadYet()==false)UI.print( "A tribal whose tribe is " + tribe);
+        else
+        {
+            UI.print("The corpse of a tribal from " + tribe); 
+        }
+    }
+
+    public void attack(Character character)
+    {
+        this.character = character;
+        this.registerObserver(character);
+        Thread th = new Thread(this);
+        th.start();
     }
 
     public boolean deadYet(){
         if(this.health<0){
-            //drop();
+            readyToFight=false;
+            this.removeObsever(character);
             return true;
         }
         else return false;
@@ -34,19 +48,17 @@ public class Tribals extends Character implements Runnable
 
     @Override
     public void run() {
-        Random r = new Random();
-        Integer x = r.nextInt(2);
         while(true){
          while(type.equals("enemy") && deadYet()==false && readyToFight==true)
          {
-            aType = new AttackSword(this);
+            aType = new AttackTribal(this);
             aType.Attack();
              try {
                  Thread.sleep(500);
              } catch (InterruptedException e) {
                 
              }
-            
+            deadYet();
          }
         }
         

@@ -330,7 +330,28 @@ public class Player extends Character implements Runnable, Movable {
     publishMessage(m);
 }
 
-   
+public Objects getObjects(String s) throws NoSuchElementException
+{
+    for(int i=0;i<inventory.size();i++)
+    {
+        if(inventory.get(i).name.equalsIgnoreCase(s))
+            return inventory.get(i);
+    }
+
+    throw new NoSuchElementException();
+}
+
+public Boolean containsObjects(String s) throws NoSuchElementException
+{
+    for(int i=0;i<inventory.size();i++)
+    {
+        if(inventory.get(i).name.equalsIgnoreCase(s))
+            return true;
+    }
+
+    return false;
+}
+
    public void showmap(Location currentLocation){
     if(currentLocation.name.equalsIgnoreCase("Island North"))
     {
@@ -495,7 +516,10 @@ public class Player extends Character implements Runnable, Movable {
                 inventorySize=20; //inventory size increases when we find the lv bag
             }
             this.checkHealth();
-
+            if(this.containsObjects("axe"))
+            {
+                publishMessage(new Message(this, "Objective", "foundAxe"));
+            }
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

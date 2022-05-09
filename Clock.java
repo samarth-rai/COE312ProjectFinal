@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Clock extends AbstractObserverSubject implements Runnable, Context{
-GregorianCalendar time = new GregorianCalendar(2022, 5, 5, 6, 00); // starting the game on 5 may 2022, at 6am
+static GregorianCalendar time = new GregorianCalendar(2022, 5, 5, 6, 00); // starting the game on 5 may 2022, at 6am
 int minCount=0;
 Integer dayCount=0;
 Integer inGameHours=0;
@@ -44,6 +44,8 @@ State state = new MorningState();
 public void run()
 {
    while (true){
+       inGameHours=Integer.parseInt(returnTime().split(":")[0]);
+       inGameMinutes=Integer.parseInt(returnTime().split(":")[1]);
     try {
         Thread.sleep(60000);
     } catch (InterruptedException e) {
@@ -70,19 +72,23 @@ public void run()
                 publishMessage(new Message(this, "day",dayCount.toString() )); //intended for gamemaster to print " it is day 0"
             }
         }
-        if(time.HOUR>6 || time.HOUR<=12){
+        
+        
+
+        if(inGameHours>=6 || inGameHours<12){
             setState(new MorningState());
         }
-        if(time.HOUR>12 || time.HOUR<=16){
+        if(inGameHours>=12 || inGameHours<16){
             setState(new AfternoonState());
         }
-        if(time.HOUR>16 || time.HOUR<=19){
+        if(inGameHours>=16 || inGameHours<19){
             setState(new EveningState());
         }
-        if(time.HOUR>19 || time.HOUR<=6){
+        if(inGameHours>=19 || inGameHours<6){
             setState(new NightState());
         } 
         publishMessage(new Message(this, "time",time.getTime().toString() )); //sample message: "16:01:00"
+        
    } 
 }
 
@@ -94,16 +100,17 @@ public void update(Message m) {
         this.nextState();
         printStatus();
         if(state.getClass().getSimpleName().equals("MorningState")){
-            time.set(0, 0, 0, 6, 0);
+            inGameHours=6;
+            publishMessage(new Message(this, "day",dayCount.toString() )); //intended for gamemaster to print " it is day 0"
         }
         if(state.getClass().getSimpleName().equals("AfternoonState")){
-            time.set(0, 0, 0, 12, 0);
+            inGameHours=12;
         }
         if(state.getClass().getSimpleName().equals("EveningState")){
-            time.set(0, 0, 0, 16, 0);
+            inGameHours=17;
         }
         if(state.getClass().getSimpleName().equals("NightState")){
-            time.set(0, 0, 0, 19, 0);
+            inGameHours=19;
         }
 
     }

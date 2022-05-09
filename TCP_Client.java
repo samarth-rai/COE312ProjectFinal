@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,7 +27,18 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 				BufferedReader br = new BufferedReader(reader);
 				String line = "";
                 int count=0;
-				
+				ArrayList<Double> arrRotate = new ArrayList<Double>();
+				arrRotate.add(0.0);
+				arrRotate.add(0.0);
+				arrRotate.add(0.0);
+				ArrayList<Double> arrShake = new ArrayList<Double>();
+				arrShake.add(0.0);
+				arrShake.add(0.0);
+				arrShake.add(0.0);
+				ArrayList<Double> arrdB = new ArrayList<Double>();
+				arrdB.add(0.0);
+				arrdB.add(0.0);
+				arrdB.add(0.0);
 				while(true)
 				{
 					line = br.readLine();
@@ -37,11 +49,15 @@ public class TCP_Client extends AbstractObserverSubject implements Runnable {
 					Double gyroYval = Double.parseDouble(gyroY);
 					Double gyroXval = Double.parseDouble(gyroX);
 					Double gyroZval = Double.parseDouble(gyroZ);
-					Double rotation = Math.pow(gyroYval,2); //amplify the rotation on the Y axis
-					Double shakiness = Math.abs(gyroXval) + Math.abs(gyroYval);
-
+					Double rotation_triv = Math.pow(gyroYval,2); //amplify the rotation on the Y axis
+					arrRotate.add(rotation_triv);
+					Double rotation = (arrRotate.get(arrRotate.size()-2)+arrRotate.get(arrRotate.size()-1)+arrRotate.get(arrRotate.size()))/3; //finding moving average of the rotation
+					Double shakiness_triv = Math.abs(gyroXval) + Math.abs(gyroYval);
+					arrShake.add(shakiness_triv);
+					Double shakiness = (arrShake.get(arrShake.size()-2)+arrShake.get(arrShake.size()-1)+arrShake.get(arrShake.size()))/3; //finding moving average of the shakiness
 					String dbPower = (String) jsonObject.get("avAudioRecorderAveragePower");
-					Double dbPowerval = Double.parseDouble(dbPower);
+					Double dbPowerval_triv = Double.parseDouble(dbPower);
+					Double dbPowerval = (arrdB.get(arrdB.size()-2)+arrdB.get(arrdB.size()-1)+arrdB.get(arrdB.size()))/3; //finding moving average of the dB level
 					String airPower = "";
 					if(dbPowerval<-15)
 					{

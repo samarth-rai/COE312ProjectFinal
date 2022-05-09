@@ -7,9 +7,11 @@ import java.util.Scanner;
 //Controls the gameplay behavior of the class
 //Runnable as this thread will control the game progression
 public class GameMaster extends AbstractObserverSubject implements Runnable {
-    static TCP_Client t = new TCP_Client("192.168.1.103", 2000);
+    
     private static GameMaster instance;
-
+    static String IP = "";
+    static Integer Port = 0;
+    static TCP_Client t;
     private GameMaster(String config, String log) {
         Thread th = new Thread(this);
         th.start();
@@ -33,7 +35,13 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             "The FedEx cargo plane he is on gets caught in a storm and" +
             "crashes into the Pacific Ocean. Chuck is the only survivor and" +
             "escapes with an inflatable life raft. The next day+," +
-            "he washes up on an uninhabited island.\n\nNow you, Chuck Noland, must survive.";
+            "he washes up on an uninhabited island.\n\nNow you, Chuck Noland, must survive."+
+            "\nThe island you are in have a few inhabitants. They are the people from the Oonga Boonga Tribe." +
+            "These tribals sleep all the time and cannot be interacted with."+ 
+            "However, it is said that there are some moments they wake up.. "+
+            "but no one has survived long enough to know what happens next.."+
+            "\nSome other things you can find on the island are wild wolves.. stay cautious, they may attack..."+
+            "\n\nType '?' for help";
             
     
    
@@ -59,22 +67,22 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     static Player player = Player.getInstance(stdSubjects,"Chuck Noland",islandNorth,100,3);
     
     //making Vikram Kumar and his items
-    Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane.");
+    Undead FedExPilot = new Undead("Vikram Kumar",islandNorth,0,4,"The corpse of the pilot flying the plane. He looks dead.. but not really.. His body is actively turning into what a zombie would look like. You must battle him before he turns into a zombie and kills you!");
     Objects idCard = new Objects(stdSubjects, "IDCard",
-            "A pilot license that belongs to vikram kumar");
+            "A pilot license that belongs to Vikram Kumar.");
     Objects wallet = new Objects(stdSubjects, "Wallet",
             "A wallet that belongs to vikram kumar, unfortunately the money in it is useless here.");
     Objects watch = new Objects(stdSubjects, "Watch",
-            "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash");
+            "A geo-tracking timepiece that changes time according to location. It must be shockproof, hence surviving the crash. Gives you the ability to tell the exact time.");
     Objects goldBracelet = new Objects(stdSubjects, "Bracelet",
             "An expensive gold bracelet, may or may not come in handy later");
 
     //Creating Tribals
     //commented because creating their instance is 
-    Tribals tribal1 = new Tribals("Mr. Oonga",islandNorth, 100, 3, "A tribal habitant of the island", "Oonga Boongas");
-    Tribals tribal2 = new Tribals("Glksjdfh",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal3 = new Tribals("Pslkkjh",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
-    Tribals tribal4 = new Tribals("Qxkdjfh",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal1 = new Tribals("Mr. Oonga Tribal",islandNorth, 100, 3, "A tribal habitant of the island. Mr. Oonga is the leader of the Oonga Boonga tribe which rules the island.", "Oonga Boongas");
+    Tribals tribal2 = new Tribals("Loola Tribal",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal3 = new Tribals("Pooma Tribal",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
+    Tribals tribal4 = new Tribals("Qxkdjfh Tribal",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     Tribals tribal5 = new Tribals("Csdjfh",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     Tribals tribal6 = new Tribals("Lsjdhfg",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     Tribals tribal7 = new Tribals("Pskh",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
@@ -147,12 +155,12 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     public void launchWolf()
     {
-        if (Objectives.fightWolf==false && Objectives.foundAxe == true && clock.inGameHours >= 17) {
+        if (Objectives.fightWolf==false && Objectives.foundAxe == true && clock.inGameHours>= 17) {
             Message m = new Message(this, "objective", "fightWolf");
             publishMessage(m);
             Animal wolf1 = new Animal("Wolf", "white", "fur", "wild");
             
-            islandEast.currentlyPlacedAnimals.add(wolf1);
+            player.currentLocation.currentlyPlacedAnimals.add(wolf1);
            
             UI.printNormal("\n"
             + "                             .d$$b\n"
@@ -182,7 +190,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             + "                            ;  ");
     
             UI.print("A wolf has appeared and it seems to be approaching you to attack!");
-            wolf1.registerObserver(player);
+            wolf1.attack(player);
         }
     }
    
@@ -190,13 +198,19 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         
         if (Objectives.fightTribals==false && clock.inGameHours >= 0 && clock.inGameHours <= 6) { //tribals attack between 12 - 6am
             UI.print("The tribals appear to be attacking you!");
-            tribal1.registerObserver(player);
+            tribal1.attack(player);
             publishMessage(new Message(this, "Objectives", "fightTribals"));
+
             
         }
         if(Objectives.fightTribals==true && clock.inGameHours >= 0 && clock.inGameHours <= 6){
-        UI.print("Since you have fought the tribals in the past, the Tribe Leader of the Oonga Boonga Tribe, Mr. Oonga has an offer of peace for you. However, the only condition is that within the next 24 hours, you much bring him a valueable item... Choose this item wisely.. If he does not like this item, the tribe will attack you!");
-        publishMessage(new Message(this, "Objectives", "peaceOffered"));
+            UI.print("Since you have fought the tribals in the past, the Tribe Leader of the Oonga Boonga Tribe, Mr. Oonga has an offer of peace for you. However, the only condition is that within the next 24 hours, you much bring him a valueable item... Choose this item wisely.. If he does not like this item, the tribe will attack you!");
+            publishMessage(new Message(this, "Objectives", "peaceOffered"));
+        }
+    }
+    public void ShipArrives(){
+        if(Objectives.peaceAccepted==true){
+
         }
     }
 
@@ -212,6 +226,7 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         player.registerObserver(islandWest);
         player.registerObserver(islandSouth);
         this.registerObserver(objectives);
+        player.registerObserver(objectives);
 
        //UI.print(introduction);
         islandEast.currentlyPlacedObjects.add(axe);
@@ -257,13 +272,19 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
         FedExPilot.inventory.add(watch);
         FedExPilot.inventory.add(goldBracelet);
         //FedExPilot.nextState();
-
+        UI.print("To begin the game, please pair your gamepad/phone.\n");
+        UI.printNormal("IP Address: "); 
+        IP = UI.read();
+        UI.printNormal("Port: "); 
+        Port = Integer.parseInt(UI.read());
+        t = new TCP_Client(IP, Port);
         L1();
     }
-    
+  
    
     public void L1() {
-        UI.print("This is level 1");
+        UI.print("Welcome to Level 1");
+        UI.print("Your objectives for this level are:\n1)Find a place to stay (or build one)\n2)Find a way to keep warm\n3)Explore the island.");
         //house built
         //fire made
         //axe found
@@ -278,7 +299,8 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
 
     public void L2() {
        
-        
+        UI.print("Welcome to Level 2");
+        UI.print("As you spend days in the wilderness, you start to feel lonely...\nYour objective for this level is: find a friend.");
        //talk to tribals
         // make tribals say that they will not attack u if u bring something valueable to them within the next day.
         //take goldbracelet and give to tribal leader Mr. Oonga
@@ -292,9 +314,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
        L2Ran =true;
     }
 
-    public void L3() {
 
-    
+    public void L3() {
+        UI.print("Welcome to Level 3.");
+        UI.print("Time has come for you to find a way to escape the island. Your objective: Find a way out.");
        //rescue ship comes
        //chuck waves
        //and he is saved :))))
@@ -332,14 +355,13 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
             if(L1Ran==false){
                 L1();
             }
-            if(L1Ran==true && L2Ran==false ){
-               // TribalAttack();
-            }
-            if(L2Ran==false && Objectives.BuiltHouse==true && Objectives.MadeFire==true && Objectives.discoverVikram==true && Objectives.foundAxe==true){
-                TribalAttack();
+            else if(L2Ran==false && Objectives.BuiltHouse==true && Objectives.MadeFire==true && Objectives.discoverVikram==true && Objectives.foundAxe==true){
                 L2();
             }
-            if(L3Ran==false && Objectives.peaceAccepted==true){
+            else if(L2Ran==true && Objectives.peaceAccepted==false){
+                TribalAttack();
+            }
+            else if(L3Ran==false && Objectives.peaceAccepted==true){
                 L3();
             }
             if(tribal1.inventory.contains(goldBracelet) && Objectives.peaceAccepted==false){

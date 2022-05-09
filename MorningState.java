@@ -1,6 +1,6 @@
 public class MorningState implements State{
 
-    Integer hour = 6;
+    
 
     @Override
     public void prev(Context context) {

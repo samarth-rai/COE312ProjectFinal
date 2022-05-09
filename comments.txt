@@ -87,3 +87,11 @@
         // Optional(Befriend William)
 
         // L2();
+
+
+
+
+
+
+
+        when look is first called: 
