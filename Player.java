@@ -499,7 +499,6 @@ public class Player extends Character implements Runnable, Movable {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
