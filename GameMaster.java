@@ -46,10 +46,10 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     
    
     // Creating all locations
-    static IslandNorth islandNorth = new IslandNorth("Island North", "The north of the island");
-    static IslandSouth islandSouth = new IslandSouth("Island South", "The south of the island");
-    static IslandEast islandEast = new IslandEast("Island East", "The east of the island");
-    static IslandWest islandWest = new IslandWest("Island West", "The west of the island");
+    static IslandNorth islandNorth = IslandNorth.getInstance("Island North", "The north of the island");
+    static IslandSouth islandSouth =  IslandSouth.getInstance("Island South", "The south of the island");
+    static IslandEast islandEast =  IslandEast.getInstance("Island East", "The east of the island");
+    static IslandWest islandWest =  IslandWest.getInstance("Island West", "The west of the island");
     
     static Location[] locationList = { islandNorth,islandSouth,islandEast,islandWest };
 
@@ -83,9 +83,9 @@ public class GameMaster extends AbstractObserverSubject implements Runnable {
     Tribals tribal2 = new Tribals("Loola Tribal",islandNorth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     Tribals tribal3 = new Tribals("Pooma Tribal",islandSouth, 100, 3,"A tribal habitant of the island", "Oonga Boongas");
     Tribals tribal4 = new Tribals("Qxkdjfh Tribal",islandSouth, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal5 = new Tribals("Csdjfh",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal6 = new Tribals("Lsjdhfg",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
-    Tribals tribal7 = new Tribals("Pskh",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal5 = new Tribals("Csdjfh Tribal",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal6 = new Tribals("Lsjdhfg Tribal",islandEast, 100, 3, "A tribal habitant of the island","Oonga Boongas");
+    Tribals tribal7 = new Tribals("Pskh Tribal",islandWest, 100, 3, "A tribal habitant of the island","Oonga Boongas");
     
     
 
